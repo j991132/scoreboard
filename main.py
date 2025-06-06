@@ -34,19 +34,15 @@ if 'blue_set_score' not in st.session_state:
 # 점수 증가/감소 함수
 def increment_red():
     st.session_state.red_score += 1
-    st.rerun()
 
 def decrement_red():
     st.session_state.red_score = max(0, st.session_state.red_score - 1)
-    st.rerun()
 
 def increment_blue():
     st.session_state.blue_score += 1
-    st.rerun()
 
 def decrement_blue():
     st.session_state.blue_score = max(0, st.session_state.blue_score - 1)
-    st.rerun()
 
 # CSS 스타일 정의
 st.markdown(f"""
@@ -93,8 +89,7 @@ st.markdown(f"""
         display: flex; justify-content: center; gap: 2vw;
         margin-top: 2vh;
     }}
-    .stButton > button {{
-        color: transparent !important;
+    .custom-button {{
         border: none; border-radius: 50%;
         width: clamp(5vw, 100px, 10vh);
         height: clamp(5vw, 100px, 10vh);
@@ -103,17 +98,30 @@ st.markdown(f"""
         background-size: 50% 50%; transition: transform 0.1s ease-in-out;
         cursor: pointer;
     }}
-    .stButton > button:active {{ transform: scale(0.95); }}
-    .plus-button .stButton > button {{
+    .custom-button:active {{ transform: scale(0.95); }}
+    .plus-button {{
         background-color: #4CAF50; background-image: url("{encoded_svg_plus}");
     }}
-    .plus-button .stButton > button:hover {{ background-color: #45a049; }}
-    .minus-button .stButton > button {{
+    .plus-button:hover {{ background-color: #45a049; }}
+    .minus-button {{
         background-color: #D32F2F; background-image: url("{encoded_svg_minus}");
     }}
-    .minus-button .stButton > button:hover {{ background-color: #C62828; }}
+    .minus-button:hover {{ background-color: #C62828; }}
     </style>
 """, unsafe_allow_html=True)
+
+# 쿼리 파라미터를 통한 버튼 이벤트 처리
+query_params = st.experimental_get_query_params()
+action = query_params.get("action", [None])[0]
+
+if action == "increment_red":
+    increment_red()
+elif action == "decrement_red":
+    decrement_red()
+elif action == "increment_blue":
+    increment_blue()
+elif action == "decrement_blue":
+    decrement_blue()
 
 # 배경과 점수를 표시할 HTML 구조 (버튼 포함)
 st.markdown(f"""
@@ -122,24 +130,16 @@ st.markdown(f"""
             <div class="set-score-left">{st.session_state.red_set_score}</div>
             <div>{st.session_state.red_score}</div>
             <div class="button-container">
-                <div class="plus-button">
-                    {st.button(" ", on_click=increment_red, key="red_plus")}
-                </div>
-                <div class="minus-button">
-                    {st.button(" ", on_click=decrement_red, key="red_minus")}
-                </div>
+                <button class="custom-button plus-button" onclick="window.location.href='?action=increment_red'"></button>
+                <button class="custom-button minus-button" onclick="window.location.href='?action=decrement_red'"></button>
             </div>
         </div>
         <div class="right">
             <div class="set-score-right">{st.session_state.blue_set_score}</div>
             <div>{st.session_state.blue_score}</div>
             <div class="button-container">
-                <div class="plus-button">
-                    {st.button(" ", on_click=increment_blue, key="blue_plus")}
-                </div>
-                <div class="minus-button">
-                    {st.button(" ", on_click=decrement_blue, key="blue_minus")}
-                </div>
+                <button class="custom-button plus-button" onclick="window.location.href='?action=increment_blue'"></button>
+                <button class="custom-button minus-button" onclick="window.location.href='?action=decrement_blue'"></button>
             </div>
         </div>
     </div>
