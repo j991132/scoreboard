@@ -1,152 +1,98 @@
 import streamlit as st
 
-# --- 페이지 설정 ---
+# --- 1. 페이지 설정 및 상태 초기화 ---
 st.set_page_config(layout="wide")
 
-# --- 점수 초기화 (세션 상태 사용) ---
 if 'red_score' not in st.session_state:
     st.session_state.red_score = 0
 if 'blue_score' not in st.session_state:
     st.session_state.blue_score = 0
 
-# --- 버튼 클릭 로직 처리 ---
-query_params = st.query_params
-if "action" in query_params:
-    action = st.query_params.pop("action")
-    if action == "red_plus":
-        st.session_state.red_score += 1
-    elif action == "red_minus":
-        st.session_state.red_score = max(0, st.session_state.red_score - 1)
-    elif action == "blue_plus":
-        st.session_state.blue_score += 1
-    elif action == "blue_minus":
-        st.session_state.blue_score = max(0, st.session_state.blue_score - 1)
-    elif action == "reset":
-        st.session_state.red_score = 0
-        st.session_state.blue_score = 0
-    
-    st.rerun()
-
-# --- CSS와 HTML을 결합한 최종 코드 ---
-# 보내주신 코드의 안정적인 flex 레이아웃을 기반으로 재구성했습니다.
-FULL_HTML_CODE = f"""
+# --- 2. CSS 스타일 정의 ---
+# 사용자님의 예제 코드 기반 + 버튼 스타일 추가
+st.markdown("""
 <style>
-    /* 기본 여백 제거 및 전체화면 설정 */
-    body, html {{
+    /* Streamlit 기본 UI 숨기기 및 전체화면 설정 */
+    #root > div:nth-child(1) > div > div > div > div > section {
+        padding: 0;
+    }
+    header, footer, #MainMenu {
+        visibility: hidden;
+    }
+    /* 점수판 패널 컨테이너 (높이를 85%로 설정해 하단에 버튼 공간 확보) */
+    .container {
+        display: flex;
+        height: 85vh; /* 버튼을 위해 높이 조정 */
+        width: 100vw;
         margin: 0;
         padding: 0;
-        width: 100vw;
-        height: 100vh;
-        overflow: hidden;
-    }}
-    /* Streamlit 기본 UI 요소 숨기기 */
-    #root > div:nth-child(1) > div > div > div > div > section > div {{
-        padding: 0 !important;
-    }}
-    header, footer, #MainMenu {{
-        visibility: hidden;
-    }}
-    /* 메인 컨테이너 (Flexbox 레이아웃) */
-    .container {{
-        display: flex;
-        height: 100vh;
-        width: 100vw;
         font-family: 'Arial Black', sans-serif;
-        position: relative; /* 자식 absolute 요소들의 기준점 */
-    }}
-    /* 점수 패널 (왼쪽, 오른쪽) */
-    .panel {{
-        flex: 1; /* ★★★ 보내주신 코드의 핵심! 화면을 1:1로 나눔 ★★★ */
+    }
+    /* 왼쪽/오른쪽 패널 (flex: 1 사용) */
+    .panel {
+        flex: 1;
         display: flex;
         justify-content: center;
         align-items: center;
         color: white;
         font-size: 30vw;
-        font-weight: 900;
-        position: relative; /* 버튼 그룹의 기준점 */
+        font-weight: bold;
         user-select: none;
-    }}
-    .red-panel {{ background-color: #E53935; }}
-    .blue-panel {{ background-color: #1E88E5; }}
+    }
+    .left { background-color: #E53935; }
+    .right { background-color: #1E88E5; }
 
-    /* 상단 작은 점수 (absolute 포지셔닝) */
-    .top-score {{
-        position: absolute;
-        top: 2vh;
-        left: 50%;
-        transform: translateX(-50%);
-        background-color: rgba(255, 255, 255, 0.2);
-        padding: 5px 20px;
-        border-radius: 10px;
-        font-size: 5vw;
-        color: white;
-        display: flex;
-        gap: 20px;
-        z-index: 10;
-    }}
-    /* 버튼 그룹 (+, - 버튼) */
-    .button-group {{
-        position: absolute;
-        bottom: 5vh;
-        left: 50%;
-        transform: translateX(-50%);
-        display: flex;
-        gap: 20px;
-        z-index: 10;
-    }}
-    /* 리셋 버튼 */
-    .reset-container {{
-        position: absolute;
-        bottom: 5vh;
-        left: 50%;
-        transform: translateX(-50%);
-        z-index: 10;
-    }}
-    /* 버튼 공통 스타일 */
-    .btn {{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 70px;
-        height: 70px;
-        border: 3px solid white;
+    /* Streamlit 버튼 스타일링 */
+    .stButton>button {
+        width: 80px;
+        height: 80px;
+        padding: 10px;
         border-radius: 50%;
+        border: 3px solid #FFFFFF;
         background-color: rgba(0, 0, 0, 0.2);
         color: white;
-        font-size: 40px;
-        text-decoration: none;
-        transition: background-color 0.2s;
-    }}
-    .btn:hover {{ background-color: rgba(0, 0, 0, 0.4); }}
+        font-size: 30px;
+        font-weight: bold;
+    }
+    .stButton>button:hover {
+        border-color: #FFC107;
+        color: #FFC107;
+    }
 </style>
+""", unsafe_allow_html=True)
 
-<div class="container">
-    <div class="top-score">
-        <span>0</span>
-        <span>0</span>
+# --- 3. HTML 구조로 점수판 패널 표시 ---
+# 버튼 없이, 순수하게 화면 표시만 담당
+st.markdown(f"""
+    <div class="container">
+        <div class="panel left">{st.session_state.red_score}</div>
+        <div class="panel right">{st.session_state.blue_score}</div>
     </div>
+""", unsafe_allow_html=True)
 
-    <div class="reset-container">
-        <a href="?action=reset" class="btn" target="_self">🔄</a>
-    </div>
 
-    <div class="panel red-panel">
-        {st.session_state.red_score}
-        <div class="button-group">
-            <a href="?action=red_plus" class="btn" target="_self">+</a>
-            <a href="?action=red_minus" class="btn" target="_self">-</a>
-        </div>
-    </div>
+# --- 4. Streamlit의 컬럼과 버튼으로 컨트롤러 구현 ---
+# 화면 하단에 5개의 컬럼을 만들어 버튼을 배치
+col1, col2, col3, col4, col5 = st.columns([1.5, 1, 1, 1, 1.5])
 
-    <div class="panel blue-panel">
-        {st.session_state.blue_score}
-        <div class="button-group">
-            <a href="?action=blue_plus" class="btn" target="_self">+</a>
-            <a href="?action=blue_minus" class="btn" target="_self">-</a>
-        </div>
-    </div>
-</div>
-"""
+with col2:
+    if st.button('-', key='red_minus', use_container_width=True):
+        st.session_state.red_score = max(0, st.session_state.red_score - 1)
+        st.rerun()
+    if st.button('+', key='red_plus', use_container_width=True):
+        st.session_state.red_score += 1
+        st.rerun()
 
-# HTML 렌더링
-st.markdown(FULL_HTML_CODE, unsafe_allow_html=True)
+with col3:
+    if st.button('🔄', key='reset', use_container_width=True):
+        st.session_state.red_score = 0
+        st.session_state.blue_score = 0
+        st.rerun()
+
+with col4:
+    if st.button('-', key='blue_minus', use_container_width=True):
+        st.session_state.blue_score = max(0, st.session_state.blue_score - 1)
+        st.rerun()
+    if st.button('+', key='blue_plus', use_container_width=True):
+        st.session_state.blue_score += 1
+        st.rerun()
