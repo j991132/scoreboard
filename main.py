@@ -108,10 +108,12 @@ st.markdown(f"""
     .stButton > button:active {{ transform: scale(0.95); }}
     .plus-button .stButton > button {{
         background-color: white;
+        font-size: clamp(1.5vw, 18px, 2vh);
     }}
     .plus-button .stButton > button:hover {{ background-color: #f0f0f0; }}
     .minus-button .stButton > button {{
         background-color: white;
+        font-size: clamp(1.5vw, 18px, 2vh);
     }}
     .minus-button .stButton > button:hover {{ background-color: #f0f0f0; }}
     .reset-button .stButton > button {{
