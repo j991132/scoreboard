@@ -23,7 +23,7 @@ st.markdown("""
         align-items: center;
         flex-direction: column;
         color: white;
-        font-size: 150px;
+        font-size: 300px;
         font-weight: bold;
         position: relative;
     }
@@ -35,7 +35,7 @@ st.markdown("""
         align-items: center;
         flex-direction: column;
         color: white;
-        font-size: 150px;
+        font-size: 300px;
         font-weight: bold;
         position: relative;
     }
@@ -45,7 +45,7 @@ st.markdown("""
         right: 20px;
         background-color: rgba(255, 255, 255, 0.5);
         padding: 10px 20px;
-        font-size: 40px;
+        font-size: 240px; /* 기존 40px의 6배 */
         font-weight: bold;
         color: black;
     }
@@ -53,9 +53,9 @@ st.markdown("""
         position: absolute;
         top: 20px;
         left: 20px;
-        background-color: rgba(255, 255, 25, 0.5);
+        background-color: rgba(255, 255, 255, 0.5);
         padding: 10px 20px;
-        font-size: 40px;
+        font-size: 240px; /* 기존 40px의 6배 */
         font-weight: bold;
         color: black;
     }
@@ -67,11 +67,11 @@ st.markdown("""
     <div class="container">
         <div class="left">
             <div class="set-score-left">0</div>
-            <div>25</div>
+            <div>0</div>
         </div>
         <div class="right">
             <div class="set-score-right">0</div>
-            <div>25</div>
+            <div>0</div>
         </div>
     </div>
 """, unsafe_allow_html=True)
