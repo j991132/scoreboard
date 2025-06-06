@@ -30,8 +30,10 @@ if "action" in query_params:
 # --- HTML 및 CSS 전체 코드 ---
 FULL_HTML_CODE = f"""
 <style>
+    /* Streamlit의 메인 컨테이너에서 여백과 최대 너비를 강제로 제거합니다. */
     #root > div:nth-child(1) > div > div > div > div > section > div {{
-        padding-top: 0rem; padding-right: 0rem; padding-bottom: 0rem; padding-left: 0rem;
+        padding: 0rem !important;
+        max-width: none !important;
     }}
     header, footer, #MainMenu {{ visibility: hidden; }}
     html, body, [class*="st-"] {{
@@ -41,32 +43,42 @@ FULL_HTML_CODE = f"""
         display: flex; height: 100vh; width: 100vw; position: relative;
     }}
     .panel {{
-        width: 50vw; /* ★★★ 이 부분을 50%에서 50vw로 수정했습니다 ★★★ */
-        height: 100%; display: flex; justify-content: center; align-items: center;
-        font-family: 'Arial Black', sans-serif; font-weight: 900; color: white;
-        font-size: 30vw; line-height: 1; position: relative; user-select: none;
+        width: 50vw !important; /* ★★★ 너비를 강제로 적용합니다 ★★★ */
+        height: 100% !important; /* ★★★ 높이를 강제로 적용합니다 ★★★ */
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        font-family: 'Arial Black', sans-serif !important;
+        font-weight: 900 !important;
+        color: white !important;
+        font-size: 30vw !important;
+        line-height: 1 !important;
+        position: relative !important;
+        user-select: none !important;
     }}
     .red-panel {{ background-color: #E53935; }}
     .blue-panel {{ background-color: #1E88E5; }}
-    .top-score {{
-        position: absolute; top: 2vh; left: 50%; transform: translateX(-50%);
-        background-color: rgba(255, 255, 255, 0.2); padding: 5px 20px;
-        border-radius: 10px; font-size: 5vw; display: flex; gap: 15px;
+    .top-score, .button-group, .reset-container {{
+        position: absolute !important;
+        z-index: 10 !important;
     }}
-    .top-score-red {{ color: #FFCDD2; }}
-    .top-score-blue {{ color: #BBDEFB; }}
+    .top-score {{
+        top: 2vh !important; left: 50% !important; transform: translateX(-50%) !important;
+        background-color: rgba(255, 255, 255, 0.2) !important; padding: 5px 20px !important;
+        border-radius: 10px !important; font-size: 5vw !important; display: flex !important; gap: 15px !important;
+    }}
     .button-group, .reset-container {{
-        position: absolute; bottom: 5vh; left: 50%; transform: translateX(-50%);
-        display: flex; gap: 20px; z-index: 10;
+        bottom: 5vh !important; left: 50% !important; transform: translateX(-50%) !important;
     }}
     .btn {{
-        display: flex; justify-content: center; align-items: center;
-        width: 70px; height: 70px; border: 3px solid white; border-radius: 50%;
-        background-color: rgba(0, 0, 0, 0.2); color: white; font-size: 40px;
-        text-decoration: none; transition: background-color 0.2s, transform 0.1s;
+        display: flex !important; justify-content: center !important; align-items: center !important;
+        width: 70px !important; height: 70px !important; border: 3px solid white !important;
+        border-radius: 50% !important; background-color: rgba(0, 0, 0, 0.2) !important;
+        color: white !important; font-size: 40px !important; text-decoration: none !important;
+        transition: background-color 0.2s, transform 0.1s !important;
     }}
-    .btn:hover {{ background-color: rgba(0, 0, 0, 0.4); }}
-    .btn:active {{ transform: scale(0.95); }}
+    .btn:hover {{ background-color: rgba(0, 0, 0, 0.4) !important; }}
+    .btn:active {{ transform: scale(0.95) !important; }}
 </style>
 
 <div class="scoreboard-container">
