@@ -31,7 +31,7 @@ if "action" in query_params:
 FULL_HTML_CODE = f"""
 <style>
     #root > div:nth-child(1) > div > div > div > div > section > div {{
-        padding-top: 0rem; padding-right: 1rem; padding-bottom: 0rem; padding-left: 1rem;
+        padding-top: 0rem; padding-right: 0rem; padding-bottom: 0rem; padding-left: 0rem;
     }}
     header, footer, #MainMenu {{ visibility: hidden; }}
     html, body, [class*="st-"] {{
@@ -41,7 +41,8 @@ FULL_HTML_CODE = f"""
         display: flex; height: 100vh; width: 100vw; position: relative;
     }}
     .panel {{
-        width: 50%; height: 100%; display: flex; justify-content: center; align-items: center;
+        width: 50vw; /* ★★★ 이 부분을 50%에서 50vw로 수정했습니다 ★★★ */
+        height: 100%; display: flex; justify-content: center; align-items: center;
         font-family: 'Arial Black', sans-serif; font-weight: 900; color: white;
         font-size: 30vw; line-height: 1; position: relative; user-select: none;
     }}
