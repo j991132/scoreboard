@@ -12,47 +12,50 @@ st.markdown("""
         width: 100vw;
         margin: 0;
         padding: 0;
+        justify-content: center;
+        align-items: flex-start;
+        background-color: #FF0000;
+    }
+    .score-box {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(255, 255, 255, 0.5);
+        padding: 20px;
+        margin-top: 20px;
         font-family: Arial, sans-serif;
     }
-    .left {
-        flex: 1;
-        background-color: #FF0000;
+    .left, .right {
         display: flex;
-        justify-content: center;
-        align-items: center;
         flex-direction: column;
-        color: white;
-        font-size: 150px;
-        font-weight: bold;
-    }
-    .right {
-        flex: 1;
-        background-color: #0000FF;
-        display: flex;
-        justify-content: center;
         align-items: center;
-        flex-direction: column;
-        color: white;
-        font-size: 150px;
+        color: black;
+        font-size: 60px;
         font-weight: bold;
+        margin: 0 20px;
     }
     .score {
-        font-size: 60px;
-        margin-bottom: 20px;
+        font-size: 40px;
+        margin-bottom: 10px;
+    }
+    .main-score {
+        font-size: 80px;
     }
     </style>
 """, unsafe_allow_html=True)
 
-# HTML 구조로 디자인 구현 (점수를 양쪽에 각각 00으로 나눔)
+# HTML 구조로 디자인 구현
 st.markdown("""
     <div class="container">
-        <div class="left">
-            <div class="score">00</div>
-            <div>25</div>
-        </div>
-        <div class="right">
-            <div class="score">00</div>
-            <div>25</div>
+        <div class="score-box">
+            <div class="left">
+                <div class="score">0</div>
+                <div class="main-score">25</div>
+            </div>
+            <div class="right">
+                <div class="score">0</div>
+                <div class="main-score">25</div>
+            </div>
         </div>
     </div>
 """, unsafe_allow_html=True)
