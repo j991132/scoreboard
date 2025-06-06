@@ -43,15 +43,15 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# HTML 구조로 디자인 구현
+# HTML 구조로 디자인 구현 (점수를 양쪽에 각각 00으로 나눔)
 st.markdown("""
     <div class="container">
         <div class="left">
-            <div class="score">00 00</div>
+            <div class="score">00</div>
             <div>25</div>
         </div>
         <div class="right">
-            <div class="score"></div>
+            <div class="score">00</div>
             <div>25</div>
         </div>
     </div>
