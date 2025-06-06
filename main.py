@@ -89,72 +89,59 @@ st.markdown(f"""
     .set-score-left {{ right: clamp(1vw, 2vw, 3vh); }}
     .set-score-right {{ left: clamp(1vw, 2vw, 3vh); }}
     /* 버튼 스타일링 CSS */
-    .stButton > button {{
-        color: transparent !important;
+    .button-container {{
+        display: flex; justify-content: center; gap: 2vw;
+        margin-top: 2vh;
+    }}
+    .custom-button {{
         border: none; border-radius: 50%;
         width: clamp(5vw, 100px, 10vh);
         height: clamp(5vw, 100px, 10vh);
         box-shadow: 0 4px 12px rgba(0,0,0,0.4);
         background-repeat: no-repeat; background-position: center;
         background-size: 50% 50%; transition: transform 0.1s ease-in-out;
+        cursor: pointer;
     }}
-    .stButton > button:active {{ transform: scale(0.95); }}
-    .plus-button .stButton > button {{
+    .custom-button:active {{ transform: scale(0.95); }}
+    .plus-button {{
         background-color: #4CAF50; background-image: url("{encoded_svg_plus}");
     }}
-    .plus-button .stButton > button:hover {{ background-color: #45a049; }}
-    .minus-button .stButton > button {{
+    .plus-button:hover {{ background-color: #45a049; }}
+    .minus-button {{
         background-color: #D32F2F; background-image: url("{encoded_svg_minus}");
     }}
-    .minus-button .stButton > button:hover {{ background-color: #C62828; }}
-    /* 버튼 컨테이너 스타일 (점수 영역 안으로 이동) */
-    .button-container {{
-        display: flex; justify-content: center; gap: 2vw;
-        margin-top: 2vh;
-    }}
-    div[data-testid="stHorizontalBlock"] > div {{
-        display: flex; justify-content: center; gap: 2vw;
+    .minus-button:hover {{ background-color: #C62828; }}
+    /* Streamlit 버튼 숨기기 */
+    .stButton > button {{
+        display: none;
     }}
     </style>
 """, unsafe_allow_html=True)
 
-# 배경과 점수를 표시할 HTML 구조
+# 배경과 점수를 표시할 HTML 구조 (버튼 포함)
 st.markdown(f"""
     <div class="container">
         <div class="left">
             <div class="set-score-left">{st.session_state.red_set_score}</div>
             <div>{st.session_state.red_score}</div>
-            <div class="button-container"></div>
+            <div class="button-container">
+                <button class="custom-button plus-button" onclick="document.getElementById('red_plus').click()"></button>
+                <button class="custom-button minus-button" onclick="document.getElementById('red_minus').click()"></button>
+            </div>
         </div>
         <div class="right">
             <div class="set-score-right">{st.session_state.blue_set_score}</div>
             <div>{st.session_state.blue_score}</div>
-            <div class="button-container"></div>
+            <div class="button-container">
+                <button class="custom-button plus-button" onclick="document.getElementById('blue_plus').click()"></button>
+                <button class="custom-button minus-button" onclick="document.getElementById('blue_minus').click()"></button>
+            </div>
         </div>
     </div>
 """, unsafe_allow_html=True)
 
-# 버튼을 각 점수 영역 내부에 배치
-col1, col2 = st.columns(2)
-
-with col1:
-    b1_col1, b1_col2 = st.columns(2)
-    with b1_col1:
-        st.markdown('<div class="plus-button">', unsafe_allow_html=True)
-        st.button(" ", on_click=increment_red, key="red_plus")
-        st.markdown('</div>', unsafe_allow_html=True)
-    with b1_col2:
-        st.markdown('<div class="minus-button">', unsafe_allow_html=True)
-        st.button(" ", on_click=decrement_red, key="red_minus")
-        st.markdown('</div>', unsafe_allow_html=True)
-
-with col2:
-    b2_col1, b2_col2 = st.columns(2)
-    with b2_col1:
-        st.markdown('<div class="plus-button">', unsafe_allow_html=True)
-        st.button(" ", on_click=increment_blue, key="blue_plus")
-        st.markdown('</div>', unsafe_allow_html=True)
-    with b2_col2:
-        st.markdown('<div class="minus-button">', unsafe_allow_html=True)
-        st.button(" ", on_click=decrement_blue, key="blue_minus")
-        st.markdown('</div>', unsafe_allow_html=True)
+# 숨겨진 Streamlit 버튼 (이벤트 처리용)
+st.button(" ", on_click=increment_red, key="red_plus", help="Red Plus")
+st.button(" ", on_click=decrement_red, key="red_minus", help="Red Minus")
+st.button(" ", on_click=increment_blue, key="blue_plus", help="Blue Plus")
+st.button(" ", on_click=decrement_blue, key="blue_minus", help="Blue Minus")
