@@ -8,6 +8,11 @@ if 'red_score' not in st.session_state:
     st.session_state.red_score = 0
 if 'blue_score' not in st.session_state:
     st.session_state.blue_score = 0
+# 세션 상태 초기화 (세트 스코어)
+if 'red_set_score' not in st.session_state:
+    st.session_state.red_set_score = 0
+if 'blue_set_score' not in st.session_state:
+    st.session_state.blue_set_score = 0
 
 # 점수 증가/감소 함수
 def increment_red():
@@ -23,7 +28,6 @@ def decrement_blue():
     st.session_state.blue_score = max(0, st.session_state.blue_score - 1)
 
 # CSS 스타일 정의
-# 기존 CSS는 그대로 유지합니다.
 st.markdown("""
     <style>
     /* Streamlit 기본 여백 제거 */
@@ -50,7 +54,7 @@ st.markdown("""
         justify-content: center;
         align-items: center;
         color: white;
-        font-size: 80vh; /* 버튼 공간 확보를 위해 폰트 크기 약간 줄임 */
+        font-size: 80vh;
         font-weight: bold;
         position: relative;
         line-height: 1;
@@ -63,20 +67,22 @@ st.markdown("""
         justify-content: center;
         align-items: center;
         color: white;
-        font-size: 80vh; /* 버튼 공간 확보를 위해 폰트 크기 약간 줄임 */
+        font-size: 80vh;
         font-weight: bold;
         position: relative;
         line-height: 1;
     }
+    /* --- ✨ 세트 스코어 CSS 수정 --- */
     .set-score-left {
         position: absolute;
         top: 20px;
         right: 20px;
         background-color: rgba(255, 255, 255, 0.5);
         padding: 10px 20px;
-        font-size: 24px; /* 가독성을 위해 폰트 크기 조정 */
+        font-size: 240px; /* 원래 크기로 복원 */
         font-weight: bold;
         color: black;
+        line-height: 1; /* 텍스트가 잘리지 않도록 line-height 조정 */
     }
     .set-score-right {
         position: absolute;
@@ -84,40 +90,57 @@ st.markdown("""
         left: 20px;
         background-color: rgba(255, 255, 255, 0.5);
         padding: 10px 20px;
-        font-size: 24px; /* 가독성을 위해 폰트 크기 조정 */
+        font-size: 240px; /* 원래 크기로 복원 */
         font-weight: bold;
         color: black;
-    }
-    /* 버튼 스타일 */
-    .stButton > button {
-        font-size: 40px;
-        padding: 15px 30px;
-        margin: 0 10px;
-        background-color: white;
-        color: black;
-        border: 2px solid black; /* 테두리 추가 */
-        border-radius: 10px;
-        cursor: pointer;
-        width: 100px; /* 버튼 너비 고정 */
+        line-height: 1; /* 텍스트가 잘리지 않도록 line-height 조정 */
     }
     
+    /* --- ✨ 버튼 스타일링 CSS 추가 --- */
+    /* 모든 버튼의 기본 스타일 */
+    .stButton > button {
+        background-color: white;
+        color: transparent; /* 텍스트를 투명하게 처리하여 보이지 않게 함 */
+        border: 3px solid black;
+        border-radius: 50%; /* 원형 버튼 */
+        cursor: pointer;
+        width: 100px; /* 버튼 너비 */
+        height: 100px; /* 버튼 높이 */
+        box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+    
+    /* 플러스 버튼 아이콘 (SVG 사용) */
+    .plus-button .stButton > button {
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>');
+        background-size: 50% 50%;
+    }
+    
+    /* 마이너스 버튼 아이콘 (SVG 사용) */
+    .minus-button .stButton > button {
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line></svg>');
+        background-size: 50% 50%;
+    }
+
     /* 버튼을 담을 컨테이너 스타일 (화면 하단에 고정) */
     .fixed-button-container {
-        position: fixed; /* view port 기준으로 위치 고정 */
-        bottom: 40px;    /* 하단에서 40px 위 */
+        position: fixed;
+        bottom: 40px;
         left: 0;
         width: 100%;
-        z-index: 100;    /* 다른 요소들 위에 표시 */
+        z-index: 100;
     }
+    
     /* 버튼 컬럼 내부 정렬 */
     div[data-testid="stHorizontalBlock"] > div:nth-child(1) {
         display: flex;
-        justify-content: flex-end; /* 빨강 버튼을 오른쪽으로 */
+        justify-content: flex-end;
         padding-right: 5vw;
     }
     div[data-testid="stHorizontalBlock"] > div:nth-child(2) {
         display: flex;
-        justify-content: flex-start; /* 파랑 버튼을 왼쪽으로 */
+        justify-content: flex-start;
         padding-left: 5vw;
     }
     </style>
@@ -127,17 +150,17 @@ st.markdown("""
 st.markdown(f"""
     <div class="container">
         <div class="left">
-            <div class="set-score-left">0</div>
+            <div class="set-score-left">{st.session_state.red_set_score}</div>
             <div>{st.session_state.red_score}</div>
         </div>
         <div class="right">
-            <div class="set-score-right">0</div>
+            <div class="set-score-right">{st.session_state.blue_set_score}</div>
             <div>{st.session_state.blue_score}</div>
         </div>
     </div>
 """, unsafe_allow_html=True)
 
-# --- ✨ 변경된 부분 시작 ---
+# --- ✨ 버튼 생성 로직 수정 ---
 
 # 버튼을 화면 하단에 고정시키기 위한 컨테이너
 st.markdown('<div class="fixed-button-container">', unsafe_allow_html=True)
@@ -147,16 +170,26 @@ col1, col2 = st.columns(2)
 
 with col1:
     # 빨강팀 버튼을 한 행에 놓기 위한 내부 컬럼
-    b1, b2 = st.columns(2)
-    b1.button("+", on_click=increment_red, key="red_plus")
-    b2.button("-", on_click=decrement_red, key="red_minus")
+    b1_col1, b1_col2 = st.columns(2)
+    with b1_col1:
+        st.markdown('<div class="plus-button">', unsafe_allow_html=True)
+        st.button(" ", on_click=increment_red, key="red_plus")
+        st.markdown('</div>', unsafe_allow_html=True)
+    with b1_col2:
+        st.markdown('<div class="minus-button">', unsafe_allow_html=True)
+        st.button(" ", on_click=decrement_red, key="red_minus")
+        st.markdown('</div>', unsafe_allow_html=True)
 
 with col2:
     # 파랑팀 버튼을 한 행에 놓기 위한 내부 컬럼
-    b3, b4 = st.columns(2)
-    b3.button("+", on_click=increment_blue, key="blue_plus")
-    b4.button("-", on_click=decrement_blue, key="blue_minus")
+    b2_col1, b2_col2 = st.columns(2)
+    with b2_col1:
+        st.markdown('<div class="plus-button">', unsafe_allow_html=True)
+        st.button(" ", on_click=increment_blue, key="blue_plus")
+        st.markdown('</div>', unsafe_allow_html=True)
+    with b2_col2:
+        st.markdown('<div class="minus-button">', unsafe_allow_html=True)
+        st.button(" ", on_click=decrement_blue, key="blue_minus")
+        st.markdown('</div>', unsafe_allow_html=True)
 
 st.markdown('</div>', unsafe_allow_html=True)
-
-# --- ✨ 변경된 부분 끝 ---
