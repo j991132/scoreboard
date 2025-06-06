@@ -48,7 +48,7 @@ st.markdown(f"""
         padding-left: 0rem; padding-right: 0rem;
     }}
     .container {{
-        display: flex; height: 80vh; /* 점수 영역 높이 */
+        display: flex; height: clamp(60vh, 80vh, 90vh); /* 디바이스 크기에 따라 조정 */
         width: 100vw; margin: 0; padding: 0;
         font-family: Arial, sans-serif; position: relative;
         overflow: hidden; /* 스크롤 방지 */
@@ -60,9 +60,9 @@ st.markdown(f"""
         color: white;
         font-size: clamp(15vh, 80vw, 60vh); /* 크기 조정 */
         font-weight: bold; position: relative;
-        line-height: 1; padding: 2vh 0 0 0; /* 좌측 여백 제거 */
+        line-height: 1; padding: 0 0 2vh 0; /* 아래 여백 추가 */
         text-align: left;
-        max-height: 80vh;
+        max-height: clamp(60vh, 80vh, 90vh); /* 디바이스 크기에 따라 조정 */
     }}
     .right {{
         flex: 1; background-color: #0000FF; display: flex;
@@ -71,9 +71,9 @@ st.markdown(f"""
         color: white;
         font-size: clamp(15vh, 80vw, 60vh); /* 크기 조정 */
         font-weight: bold; position: relative;
-        line-height: 1; padding: 2vh 0 0 0; /* 우측 여백 제거 */
+        line-height: 1; padding: 0 0 2vh 0; /* 아래 여백 추가 */
         text-align: right;
-        max-height: 80vh;
+        max-height: clamp(60vh, 80vh, 90vh); /* 디바이스 크기에 따라 조정 */
     }}
     /* 세트 스코어 CSS */
     .set-score-left {{
@@ -98,18 +98,18 @@ st.markdown(f"""
     .fixed-button-container {{
         position: fixed; bottom: 0; left: 0;
         width: 100%; z-index: 100; display: flex;
-        justify-content: center; gap: 1vw;
-        padding: 0.5vh 5vw;
+        justify-content: center; gap: clamp(0.5vw, 1vw, 2vw); /* 간격 조정 */
+        padding: clamp(0.2vh, 0.5vh, 1vh) clamp(2vw, 5vw, 10vw); /* 패딩 조정 */
         background-color: transparent;
-        height: 20vh;
+        height: clamp(10vh, 20vh, 40vh); /* 디바이스 크기에 따라 조정 */
     }}
     .stButton > button {{
         border: none; border-radius: 50%;
-        width: clamp(4vw, 60px, 6vh);
-        height: clamp(4vw, 60px, 6vh);
+        width: clamp(3vw, 60px, 8vh); /* 크기 조정 */
+        height: clamp(3vw, 60px, 8vh); /* 크기 조정 */
         box-shadow: 0 4px 12px rgba(0,0,0,0.4);
         background-color: white;
-        font-size: clamp(2.5vw, 30px, 4vh);
+        font-size: clamp(2vw, 30px, 4vh);
         font-weight: bold;
         color: black;
         text-align: center;
@@ -121,19 +121,19 @@ st.markdown(f"""
     
     .plus-button .stButton > button {{
         background-color: #8fdefd;
-        font-size: clamp(2.5vw, 30px, 4vh);
+        font-size: clamp(2vw, 30px, 4vh);
     }}
     .plus-button .stButton > button:hover {{ background-color: #8fdefd; }}
 
     .minus-button .stButton > button {{
         background-color: #fdb5b4;
-        font-size: clamp(2.5vw, 30px, 4vh);
+        font-size: clamp(2vw, 30px, 4vh);
     }}
     .minus-button .stButton > button:hover {{ background-color: #fdb5b4; }}
 
     .reset-button .stButton > button {{
         background-color: white;
-        font-size: clamp(2.5vw, 30px, 4vh);
+        font-size: clamp(2vw, 30px, 4vh);
     }}
     .reset-button .stButton > button:hover {{ background-color: #f0f0f0; }}
     
@@ -148,7 +148,7 @@ st.markdown(f"""
     }}
     /* 버튼 가로 정렬 */
     .button-row {{
-        display: flex; justify-content: center; gap: 1vw;
+        display: flex; justify-content: center; gap: clamp(0.5vw, 1vw, 2vw);
     }}
     </style>
 """, unsafe_allow_html=True)
