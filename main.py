@@ -23,9 +23,10 @@ st.markdown("""
         align-items: center;
         flex-direction: column;
         color: white;
-        font-size: 300px;
+        font-size: 90vh; /* 영역에 가득 차도록 vh 단위로 설정 */
         font-weight: bold;
         position: relative;
+        line-height: 1;
     }
     .right {
         flex: 1;
@@ -35,9 +36,10 @@ st.markdown("""
         align-items: center;
         flex-direction: column;
         color: white;
-        font-size: 300px;
+        font-size: 90vh; /* 영역에 가득 차도록 vh 단위로 설정 */
         font-weight: bold;
         position: relative;
+        line-height: 1;
     }
     .set-score-left {
         position: absolute;
@@ -45,7 +47,7 @@ st.markdown("""
         right: 20px;
         background-color: rgba(255, 255, 255, 0.5);
         padding: 10px 20px;
-        font-size: 240px; /* 기존 40px의 6배 */
+        font-size: 240px;
         font-weight: bold;
         color: black;
     }
@@ -55,7 +57,7 @@ st.markdown("""
         left: 20px;
         background-color: rgba(255, 255, 255, 0.5);
         padding: 10px 20px;
-        font-size: 240px; /* 기존 40px의 6배 */
+        font-size: 240px;
         font-weight: bold;
         color: black;
     }
