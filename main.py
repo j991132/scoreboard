@@ -48,7 +48,7 @@ st.markdown(f"""
         padding-left: 0rem; padding-right: 0rem;
     }}
     .container {{
-        display: flex; height: calc(100vh - 10vh); /* 버튼 공간 확보 */
+        display: flex; height: 80vh; /* 점수 영역 높이 축소 */
         width: 100vw; margin: 0; padding: 0;
         font-family: Arial, sans-serif; position: relative;
         overflow: hidden; /* 스크롤 방지 */
@@ -57,24 +57,26 @@ st.markdown(f"""
         flex: 1; background-color: #FF0000; display: flex;
         flex-direction: column; justify-content: flex-start; /* 상단 정렬 */
         align-items: center; color: white;
-        font-size: clamp(20vh, 80vw, 80vh); /* 원래 크기로 복원 */
+        font-size: clamp(20vh, 80vw, 80vh);
         font-weight: bold; position: relative;
-        line-height: 1; padding-top: 5vh; /* 상단 패딩 추가 */
+        line-height: 1; padding-top: 2vh; /* 상단 패딩 축소 */
+        max-height: 80vh; /* 최대 높이 제한 */
     }}
     .right {{
         flex: 1; background-color: #0000FF; display: flex;
         flex-direction: column; justify-content: flex-start; /* 상단 정렬 */
         align-items: center; color: white;
-        font-size: clamp(20vh, 80vw, 80vh); /* 원래 크기로 복원 */
+        font-size: clamp(20vh, 80vw, 80vh);
         font-weight: bold; position: relative;
-        line-height: 1; padding-top: 5vh; /* 상단 패딩 추가 */
+        line-height: 1; padding-top: 2vh; /* 상단 패딩 축소 */
+        max-height: 80vh; /* 최대 높이 제한 */
     }}
     /* 세트 스코어 CSS */
     .set-score-left, .set-score-right {{
         position: absolute; top: clamp(0.5vh, 1vw, 2vh);
         background-color: rgba(255, 255, 255, 0.5);
         padding: clamp(0.2vh, 0.5vw, 1vh) clamp(0.5vw, 1vw, 2vh);
-        font-size: clamp(5vh, 30vw, 40vh); /* 원래 크기로 복원 */
+        font-size: clamp(5vh, 30vw, 40vh);
         font-weight: bold; color: black;
         line-height: 1;
     }}
@@ -84,14 +86,15 @@ st.markdown(f"""
     .fixed-button-container {{
         position: fixed; bottom: 0; left: 0;
         width: 100%; z-index: 100; display: flex;
-        justify-content: center; gap: 2vw;
-        padding: 1vh 5vw; /* 패딩 조정 */
-        background-color: transparent; /* 배경 투명 */
+        justify-content: center; gap: 1vw; /* 간격 축소 */
+        padding: 0.5vh 5vw; /* 패딩 축소 */
+        background-color: transparent;
+        height: 20vh; /* 버튼 영역 높이 명시 */
     }}
     .stButton > button {{
         border: none; border-radius: 50%;
-        width: clamp(5vw, 80px, 8vh);
-        height: clamp(5vw, 80px, 8vh);
+        width: clamp(4vw, 60px, 6vh); /* 버튼 크기 축소 */
+        height: clamp(4vw, 60px, 6vh); /* 버튼 크기 축소 */
         box-shadow: 0 4px 12px rgba(0,0,0,0.4);
         background-color: white;
         font-size: clamp(2vw, 24px, 3vh);
