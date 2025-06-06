@@ -48,28 +48,28 @@ st.markdown(f"""
         padding-left: 0rem; padding-right: 0rem;
     }}
     .container {{
-        display: flex; height: 80vh; /* 점수 영역 높이 축소 */
+        display: flex; height: 80vh; /* 점수 영역 높이 */
         width: 100vw; margin: 0; padding: 0;
         font-family: Arial, sans-serif; position: relative;
         overflow: hidden; /* 스크롤 방지 */
     }}
     .left {{
         flex: 1; background-color: #FF0000; display: flex;
-        flex-direction: column; justify-content: flex-start; /* 상단 정렬 */
+        flex-direction: column; justify-content: flex-start;
         align-items: center; color: white;
         font-size: clamp(20vh, 80vw, 80vh);
         font-weight: bold; position: relative;
-        line-height: 1; padding-top: 2vh; /* 상단 패딩 축소 */
-        max-height: 80vh; /* 최대 높이 제한 */
+        line-height: 1; padding-top: 2vh;
+        max-height: 80vh;
     }}
     .right {{
         flex: 1; background-color: #0000FF; display: flex;
-        flex-direction: column; justify-content: flex-start; /* 상단 정렬 */
+        flex-direction: column; justify-content: flex-start;
         align-items: center; color: white;
         font-size: clamp(20vh, 80vw, 80vh);
         font-weight: bold; position: relative;
-        line-height: 1; padding-top: 2vh; /* 상단 패딩 축소 */
-        max-height: 80vh; /* 최대 높이 제한 */
+        line-height: 1; padding-top: 2vh;
+        max-height: 80vh;
     }}
     /* 세트 스코어 CSS */
     .set-score-left, .set-score-right {{
@@ -86,15 +86,15 @@ st.markdown(f"""
     .fixed-button-container {{
         position: fixed; bottom: 0; left: 0;
         width: 100%; z-index: 100; display: flex;
-        justify-content: center; gap: 1vw; /* 간격 축소 */
-        padding: 0.5vh 5vw; /* 패딩 축소 */
+        justify-content: center; gap: 1vw;
+        padding: 0.5vh 5vw;
         background-color: transparent;
-        height: 20vh; /* 버튼 영역 높이 명시 */
+        height: 20vh;
     }}
     .stButton > button {{
         border: none; border-radius: 50%;
-        width: clamp(4vw, 60px, 6vh); /* 버튼 크기 축소 */
-        height: clamp(4vw, 60px, 6vh); /* 버튼 크기 축소 */
+        width: clamp(4vw, 60px, 6vh);
+        height: clamp(4vw, 60px, 6vh);
         box-shadow: 0 4px 12px rgba(0,0,0,0.4);
         background-color: white;
         font-size: clamp(2vw, 24px, 3vh);
@@ -146,36 +146,16 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # 버튼을 화면 하단에 고정시키기 위한 컨테이너
-st.markdown('<div class="fixed-button-container">', unsafe_allow_html=True)
+with st.container():
+    col1, col2, col3 = st.columns([1, 1, 1])
 
-# 버튼을 좌우 및 중앙으로 나누기 위한 컬럼
-col1, col2, col3 = st.columns([1, 1, 1])
-
-with col1:
-    b1_col1, b1_col2 = st.columns(2)
-    with b1_col1:
-        st.markdown('<div class="plus-button">', unsafe_allow_html=True)
+    with col1:
         st.button("+", on_click=increment_red, key="red_plus")
-        st.markdown('</div>', unsafe_allow_html=True)
-    with b1_col2:
-        st.markdown('<div class="minus-button">', unsafe_allow_html=True)
         st.button("-", on_click=decrement_red, key="red_minus")
-        st.markdown('</div>', unsafe_allow_html=True)
 
-with col2:
-    st.markdown('<div class="reset-button">', unsafe_allow_html=True)
-    st.button("Reset", on_click=reset_scores, key="reset")
-    st.markdown('</div>', unsafe_allow_html=True)
+    with col2:
+        st.button("Reset", on_click=reset_scores, key="reset")
 
-with col3:
-    b2_col1, b2_col2 = st.columns(2)
-    with b2_col1:
-        st.markdown('<div class="plus-button">', unsafe_allow_html=True)
+    with col3:
         st.button("+", on_click=increment_blue, key="blue_plus")
-        st.markdown('</div>', unsafe_allow_html=True)
-    with b2_col2:
-        st.markdown('<div class="minus-button">', unsafe_allow_html=True)
         st.button("-", on_click=decrement_blue, key="blue_minus")
-        st.markdown('</div>', unsafe_allow_html=True)
-
-st.markdown('</div>', unsafe_allow_html=True)
