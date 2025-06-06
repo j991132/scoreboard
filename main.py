@@ -53,200 +53,134 @@ st.markdown(f"""
     <style>
     /* Streamlit 기본 여백 제거 */
     .block-container {{
-        padding-top: 0rem !important; 
-        padding-bottom: 0rem !important;
-        padding-left: 0rem !important; 
-        padding-right: 0rem !important;
-        margin: 0 !important; /* 추가: block-container 자체의 마진도 제거 */
+        padding-top: 0rem; padding-bottom: 0rem;
+        padding-left: 0rem; padding-right: 0rem;
     }}
-    /* 기본 HTML 및 body 여백/패딩 제거 */
-    html, body {{
-        margin: 0 !important;
-        padding: 0 !important;
-        overflow: hidden !important; /* 스크롤바 방지 */
-        width: 100vw;
-        height: 100vh;
+    .container {{
+        display: flex; height: 100vh; width: 100vw;
+        margin: 0; padding: 0; font-family: Arial, sans-serif; position: relative;
     }}
-
-    /* --- ✨ 새로운 주 레이아웃 CSS --- */
-    /* st.columns(2)로 생성된 최상위 가로 블록 */
-    div[data-testid="stApp"] > div > div[data-testid="stHorizontalBlock"] {{
-        display: flex !important;
-        height: 100vh !important;
-        width: 100vw !important; 
-        padding: 0 !important;
-        margin: 0 !important;
-        position: absolute; /* 화면 전체를 덮도록 */
-        top: 0;
-        left: 0;
+    .left {{
+        flex: 1; background-color: #FF0000; display: flex; flex-direction: column;
+        justify-content: center; align-items: center; color: white;
+        font-size: 80vh; font-weight: bold; position: relative; line-height: 1;
     }}
-
-    /* 왼쪽 컬럼 (빨강팀) */
-    /* st.columns(2)의 첫 번째 자식 div */
-    div[data-testid="stApp"] > div > div[data-testid="stHorizontalBlock"] > div:nth-child(1) {{
-        background-color: #FF0000;
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        justify-content: center; 
-        align-items: center;    
-        position: relative;     
-        color: white;
-        font-size: 75vh; /* 버튼과 세트스코어 공간 확보를 위해 약간 줄임 */
-        font-weight: bold;
-        line-height: 1;
-        overflow: hidden; 
-        padding: 0 !important; /* 내부 패딩 제거 */
-        height: 100%; /* 부모의 100vh를 따름 */
-    }}
-
-    /* 오른쪽 컬럼 (파랑팀) */
-    /* st.columns(2)의 두 번째 자식 div */
-    div[data-testid="stApp"] > div > div[data-testid="stHorizontalBlock"] > div:nth-child(2) {{
-        background-color: #0000FF;
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        position: relative;
-        color: white;
-        font-size: 75vh; /* 버튼과 세트스코어 공간 확보를 위해 약간 줄임 */
-        font-weight: bold;
-        line-height: 1;
-        overflow: hidden;
-        padding: 0 !important; /* 내부 패딩 제거 */
-        height: 100%; /* 부모의 100vh를 따름 */
+    .right {{
+        flex: 1; background-color: #0000FF; display: flex; flex-direction: column;
+        justify-content: center; align-items: center; color: white;
+        font-size: 80vh; font-weight: bold; position: relative; line-height: 1;
     }}
     
-    /* 세트 스코어 표시 */
-    .set-score-display {{
+    /* --- ✨ 세트 스코어 CSS 수정 --- */
+    .set-score-left, .set-score-right {{
         position: absolute;
-        top: 20px; 
-        background-color: rgba(255, 255, 255, 0.6); /* 배경 약간 더 불투명하게 */
-        padding: 10px 20px; 
-        font-size: 180px; /* 크기 재조정 */
+        top: 10px;
+        background-color: rgba(255, 255, 255, 0.5);
+        padding: 5px 10px;
+        font-size: 480px; /* 요청에 따라 크기 2배로 증가 */
         font-weight: bold;
         color: black;
-        line-height: 1; 
-        z-index: 10; 
-        border-radius: 15px; /* 모서리 둥글게 */
+        line-height: 1; /* 텍스트가 잘리지 않도록 line-height 조정 */
     }}
-    .set-score-left-team {{ right: 30px; }} /* 빨강팀 영역 내 오른쪽 상단 */
-    .set-score-right-team {{ left: 30px; }} /* 파랑팀 영역 내 왼쪽 상단 */
-
-    /* 메인 스코어 (큰 숫자) */
-    .main-score-display {{
-        /* 폰트 스타일은 부모 컬럼에서 상속, 필요시 추가 스타일링 */
-        text-align: center; /* 확실한 중앙 정렬 */
-    }}
+    .set-score-left {{ right: 20px; }}
+    .set-score-right {{ left: 20px; }}
     
-    /* 각 팀의 버튼들을 감싸는 래퍼 */
-    .team-buttons-wrapper {{
-        position: absolute;
-        bottom: 30px; /* 하단 여백 조정 */
-        left: 0;      /* 부모 컬럼의 왼쪽 끝에서 시작 */
-        width: 100%;  /* 부모 컬럼의 전체 너비 */
-        display: flex;
-        justify-content: center; /* 내부 버튼 쌍을 수평 중앙 정렬 */
-        z-index: 20;
+    /* --- ✨ 버튼 스타일링 CSS 수정 --- */
+    /* 모든 버튼의 공통 스타일 */
+    .stButton > button {{
+        color: transparent !important; /* 텍스트 강제로 투명하게 처리 */
+        border: none;
+        border-radius: 50%; /* 원형 버튼 */
+        width: 100px;
+        height: 100px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 50% 50%;
+        transition: transform 0.1s ease-in-out;
     }}
-    
-    /* 버튼 쌍(+, -)을 담고 있는 내부 st.columns로 생성된 가로 블록 */
-    .team-buttons-wrapper > div[data-testid="stHorizontalBlock"] {{
-        display: flex !important;
-        justify-content: center !important; 
-        align-items: center !important;
-        gap: 25px !important; /* 버튼 사이 간격 조정 */
-        width: auto !important; 
-        height: auto !important; /* 중요: 부모의 100vh 높이 상속 방지 */
-        background-color: transparent !important; /* 중요: 부모 배경색 상속 방지 */
-        padding: 0 !important;
-        margin: 0 !important;
-        border: none !important; /* 혹시 모를 테두리 제거 */
+    .stButton > button:active {{
+        transform: scale(0.95); /* 클릭 시 살짝 작아지는 효과 */
     }}
 
-    /* --- 개별 버튼 스타일링 (이전과 동일) --- */
-    div[data-testid="stButton"] > button {{ 
-        color: transparent !important; 
-        border: none !important;
-        border-radius: 50% !important; 
-        width: 90px !important; /* 버튼 크기 약간 줄임 */
-        height: 90px !important; 
-        box-shadow: 0 5px 15px rgba(0,0,0,0.35) !important; /* 그림자 강조 */
-        background-repeat: no-repeat !important;
-        background-position: center !important;
-        background-size: 45% 45% !important; /* 아이콘 크기 조정 */
-        transition: transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out !important;
-        padding: 0 !important; 
-        cursor: pointer !important;
+    /* 플러스(+) 버튼: 초록색 배경, 흰색 아이콘 */
+    .plus-button .stButton > button {{
+        background-color: #4CAF50; /* 초록색 */
+        background-image: url("{encoded_svg_plus}");
     }}
-    div[data-testid="stButton"] > button:active {{
-        transform: scale(0.93) !important; 
-        box-shadow: 0 2px 8px rgba(0,0,0,0.3) !important;
-    }}
-    .plus-button div[data-testid="stButton"] > button {{ 
-        background-color: #4CAF50 !important; 
-        background-image: url("{encoded_svg_plus}") !important;
-    }}
-    .plus-button div[data-testid="stButton"] > button:hover {{
-        background-color: #45a049 !important;
-    }}
-    .minus-button div[data-testid="stButton"] > button {{ 
-        background-color: #D32F2F !important; 
-        background-image: url("{encoded_svg_minus}") !important;
-    }}
-    .minus-button div[data-testid="stButton"] > button:hover {{
-        background-color: #C62828 !important;
-    }}
-    .plus-button, .minus-button {{ 
-        display: flex !important;
-        justify-content: center !important;
-        align-items: center !important;
+    .plus-button .stButton > button:hover {{
+        background-color: #45a049;
     }}
     
+    /* 마이너스(-) 버튼: 빨간색 배경, 흰색 아이콘 */
+    .minus-button .stButton > button {{
+        background-color: #D32F2F; /* 진한 빨간색 */
+        background-image: url("{encoded_svg_minus}");
+    }}
+    .minus-button .stButton > button:hover {{
+        background-color: #C62828;
+    }}
+
+    /* 버튼을 담을 컨테이너 스타일 (화면 하단에 고정) */
+    .fixed-button-container {{
+        position: fixed; bottom: 40px; left: 0;
+        width: 100%; z-index: 100;
+    }}
+    
+    /* 버튼 컬럼 내부 정렬 */
+    div[data-testid="stHorizontalBlock"] > div:nth-child(1) {{
+        display: flex; justify-content: flex-end; padding-right: 5vw;
+    }}
+    div[data-testid="stHorizontalBlock"] > div:nth-child(2) {{
+        display: flex; justify-content: flex-start; padding-left: 5vw;
+    }}
     </style>
 """, unsafe_allow_html=True)
 
-# --- ✨ Python 로직 (주 레이아웃 변경) ---
-# 화면을 좌우로 나누는 기본 컬럼 생성
-# 이 컬럼들이 각각 빨강/파랑 영역이 됨
-col_red_area, col_blue_area = st.columns(2)
+# 배경과 점수를 표시할 HTML 구조
+st.markdown(f"""
+    <div class="container">
+        <div class="left">
+            <div class="set-score-left">{st.session_state.red_set_score}</div>
+            <div>{st.session_state.red_score}</div>
+        </div>
+        <div class="right">
+            <div class="set-score-right">{st.session_state.blue_set_score}</div>
+            <div>{st.session_state.blue_score}</div>
+        </div>
+    </div>
+""", unsafe_allow_html=True)
 
-with col_red_area: # 빨강팀 영역
-    # 세트 스코어 (HTML로 생성하여 CSS로 위치 지정)
-    st.markdown(f'<div class="set-score-display set-score-left-team">{st.session_state.red_set_score}</div>', unsafe_allow_html=True)
-    
-    # 메인 스코어 (HTML로 생성, 부모 컬럼의 flex 속성으로 중앙 정렬)
-    st.markdown(f'<div class="main-score-display">{st.session_state.red_score}</div>', unsafe_allow_html=True)
-    
-    # 버튼 래퍼 (HTML로 생성하여 CSS로 위치 지정)
-    st.markdown('<div class="team-buttons-wrapper">', unsafe_allow_html=True)
-    # 실제 버튼은 Streamlit 위젯으로 생성
-    btn_cols_red_plus, btn_cols_red_minus = st.columns([1,1]) 
-    with btn_cols_red_plus:
+# --- 버튼 생성 로직 (수정 없음) ---
+
+# 버튼을 화면 하단에 고정시키기 위한 컨테이너
+st.markdown('<div class="fixed-button-container">', unsafe_allow_html=True)
+
+# 버튼을 좌우로 나누기 위한 컬럼
+col1, col2 = st.columns(2)
+
+with col1:
+    # 빨강팀 버튼을 한 행에 놓기 위한 내부 컬럼
+    b1_col1, b1_col2 = st.columns(2)
+    with b1_col1:
         st.markdown('<div class="plus-button">', unsafe_allow_html=True)
-        # 버튼 key 값 변경 (이전 실행과의 충돌 방지)
-        st.button(" ", on_click=increment_red, key="red_plus_area_v2") 
+        st.button(" ", on_click=increment_red, key="red_plus")
         st.markdown('</div>', unsafe_allow_html=True)
-    with btn_cols_red_minus:
+    with b1_col2:
         st.markdown('<div class="minus-button">', unsafe_allow_html=True)
-        st.button(" ", on_click=decrement_red, key="red_minus_area_v2")
+        st.button(" ", on_click=decrement_red, key="red_minus")
         st.markdown('</div>', unsafe_allow_html=True)
-    st.markdown('</div>', unsafe_allow_html=True) # team-buttons-wrapper 닫기
 
-with col_blue_area: # 파랑팀 영역
-    st.markdown(f'<div class="set-score-display set-score-right-team">{st.session_state.blue_set_score}</div>', unsafe_allow_html=True)
-    st.markdown(f'<div class="main-score-display">{st.session_state.blue_score}</div>', unsafe_allow_html=True)
-
-    st.markdown('<div class="team-buttons-wrapper">', unsafe_allow_html=True)
-    btn_cols_blue_plus, btn_cols_blue_minus = st.columns([1,1])
-    with btn_cols_blue_plus:
+with col2:
+    # 파랑팀 버튼을 한 행에 놓기 위한 내부 컬럼
+    b2_col1, b2_col2 = st.columns(2)
+    with b2_col1:
         st.markdown('<div class="plus-button">', unsafe_allow_html=True)
-        st.button(" ", on_click=increment_blue, key="blue_plus_area_v2")
+        st.button(" ", on_click=increment_blue, key="blue_plus")
         st.markdown('</div>', unsafe_allow_html=True)
-    with btn_cols_blue_minus:
+    with b2_col2:
         st.markdown('<div class="minus-button">', unsafe_allow_html=True)
-        st.button(" ", on_click=decrement_blue, key="blue_minus_area_v2")
+        st.button(" ", on_click=decrement_blue, key="blue_minus")
         st.markdown('</div>', unsafe_allow_html=True)
-    st.markdown('</div>', unsafe_allow_html=True) # team-buttons-wrapper 닫기
+
+st.markdown('</div>', unsafe_allow_html=True)
