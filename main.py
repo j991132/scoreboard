@@ -51,49 +51,53 @@ st.markdown(f"""
         display: flex; height: 100vh; width: 100vw;
         margin: 0; padding: 0; font-family: Arial, sans-serif;
         position: relative;
+        overflow: hidden; /* 스크롤 방지 */
     }}
     .left {{
         flex: 1; background-color: #FF0000; display: flex;
         flex-direction: column; justify-content: center;
         align-items: center; color: white;
-        font-size: clamp(10vh, 40vw, 50vh); /* 점수 크기 축소 */
+        font-size: clamp(5vh, 20vw, 25vh); /* 점수 크기 더 축소 */
         font-weight: bold; position: relative;
-        line-height: 1; min-height: 0;
+        line-height: 1; max-height: 70vh; /* 높이 제한 */
     }}
     .right {{
         flex: 1; background-color: #0000FF; display: flex;
         flex-direction: column; justify-content: center;
         align-items: center; color: white;
-        font-size: clamp(10vh, 40vw, 50vh); /* 점수 크기 축소 */
+        font-size: clamp(5vh, 20vw, 25vh); /* 점수 크기 더 축소 */
         font-weight: bold; position: relative;
-        line-height: 1; min-height: 0;
+        line-height: 1; max-height: 70vh; /* 높이 제한 */
     }}
     /* 세트 스코어 CSS */
     .set-score-left, .set-score-right {{
-        position: absolute; top: clamp(0.5vh, 1vw, 2vh);
+        position: absolute; top: clamp(0.5vh, 1vw, 1.5vh); /* 상단 위치 조정 */
         background-color: rgba(255, 255, 255, 0.5);
-        padding: clamp(0.2vh, 0.5vw, 1vh) clamp(0.5vw, 1vw, 2vh);
-        font-size: clamp(3vh, 15vw, 20vh); /* 세트 스코어 크기 축소 */
+        padding: clamp(0.1vh, 0.3vw, 0.5vh) clamp(0.3vw, 0.5vw, 1vh); /* 패딩 축소 */
+        font-size: clamp(2vh, 10vw, 12vh); /* 세트 스코어 크기 더 축소 */
         font-weight: bold; color: black;
         line-height: 1;
     }}
-    .set-score-left {{ right: clamp(1vw, 2vw, 3vh); }}
-    .set-score-right {{ left: clamp(1vw, 2vw, 3vh); }}
+    .set-score-left {{ right: clamp(1vw, 1.5vw, 2vh); }}
+    .set-score-right {{ left: clamp(1vw, 1.5vw, 2vh); }}
     /* 버튼 스타일링 CSS */
     .fixed-button-container {{
-        position: fixed; bottom: 2vh; left: 0;
+        position: fixed; bottom: 1vh; left: 0;
         width: 100%; z-index: 100; display: flex;
-        justify-content: center; gap: 2vw;
+        justify-content: center; gap: 1vw; /* 간격 축소 */
+        padding: 0 5vw; /* 양쪽 여백 추가 */
     }}
     .stButton > button {{
         border: none; border-radius: 50%;
-        width: clamp(5vw, 80px, 8vh); /* 버튼 크기 축소 */
-        height: clamp(5vw, 80px, 8vh); /* 버튼 크기 축소 */
+        width: clamp(4vw, 60px, 6vh); /* 버튼 크기 더 축소 */
+        height: clamp(4vw, 60px, 6vh); /* 버튼 크기 더 축소 */
         box-shadow: 0 4px 12px rgba(0,0,0,0.4);
         background-color: white;
-        font-size: clamp(2vw, 24px, 3vh);
+        font-size: clamp(1.5vw, 18px, 2.5vh); /* 텍스트 크기 조정 */
         font-weight: bold;
         color: black;
+        text-align: center; /* 텍스트 중앙 정렬 */
+        overflow: visible; /* 텍스트가 잘리지 않도록 */
         transition: transform 0.1s ease-in-out;
         cursor: pointer;
     }}
@@ -108,17 +112,17 @@ st.markdown(f"""
     .minus-button .stButton > button:hover {{ background-color: #f0f0f0; }}
     .reset-button .stButton > button {{
         background-color: white;
-        font-size: clamp(1.5vw, 18px, 2vh);
+        font-size: clamp(1.2vw, 14px, 2vh); /* 리셋 버튼 텍스트 크기 조정 */
     }}
     .reset-button .stButton > button:hover {{ background-color: #f0f0f0; }}
     div[data-testid="stHorizontalBlock"] > div:nth-child(1) {{
-        display: flex; justify-content: flex-end; padding-right: 5vw;
+        display: flex; justify-content: flex-end; padding-right: 2vw;
     }}
     div[data-testid="stHorizontalBlock"] > div:nth-child(2) {{
         display: flex; justify-content: center;
     }}
     div[data-testid="stHorizontalBlock"] > div:nth-child(3) {{
-        display: flex; justify-content: flex-start; padding-left: 5vw;
+        display: flex; justify-content: flex-start; padding-left: 2vw;
     }}
     </style>
 """, unsafe_allow_html=True)
