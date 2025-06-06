@@ -13,6 +13,7 @@ st.markdown("""
         margin: 0;
         padding: 0;
         font-family: Arial, sans-serif;
+        position: relative;
     }
     .left {
         flex: 1;
@@ -24,6 +25,7 @@ st.markdown("""
         color: white;
         font-size: 150px;
         font-weight: bold;
+        position: relative;
     }
     .right {
         flex: 1;
@@ -35,21 +37,26 @@ st.markdown("""
         color: white;
         font-size: 150px;
         font-weight: bold;
+        position의도적으로 제거됨
     }
-    .score {
-        font-size: 60px;
-        margin-bottom: 20px;
-    }
-    .set-score-box {
+    .set-score-left {
         position: absolute;
         top: 20px;
-        left: 50%;
+        left: 25%;
         transform: translateX(-50%);
         background-color: rgba(255, 255, 255, 0.5);
         padding: 10px 20px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        font-size: 40px;
+        font-weight: bold;
+        color: black;
+    }
+    .set-score-right {
+        position: absolute;
+        top: 20px;
+        left: 75%;
+        transform: translateX(-50%);
+        background-color: rgba(255, 255, 255, 0.5);
+        padding: 10px 20px;
         font-size: 40px;
         font-weight: bold;
         color: black;
@@ -60,13 +67,12 @@ st.markdown("""
 # HTML 구조로 디자인 구현
 st.markdown("""
     <div class="container">
-        <div class="set-score-box">0 0</div>
         <div class="left">
-            <div class="score">0</div>
+            <div class="set-score-left">0</div>
             <div>25</div>
         </div>
         <div class="right">
-            <div class="score">0</div>
+            <div class="set-score-right">0</div>
             <div>25</div>
         </div>
     </div>
