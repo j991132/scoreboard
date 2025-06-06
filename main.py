@@ -66,17 +66,17 @@ st.markdown(f"""
     }}
     .container {{
         display: flex; height: 100vh; width: 100vw;
-        margin: 0; padding: 0; font-family: Arial, sans-serif; position: relative;
+        margin: 0; padding: 0; font-family: Arial, sans-serif; position: relative; /* 부모 컨테이너가 relative여야 자식 absolute가 제대로 동작 */
     }}
     .left {{
         flex: 1; background-color: #FF0000; display: flex; flex-direction: column;
         justify-content: center; align-items: center; color: white;
-        font-size: 80vh; font-weight: bold; position: relative; line-height: 1;
+        font-size: 80vh; font-weight: bold; position: relative; line-height: 1; /* 자식 absolute 요소의 기준점 */
     }}
     .right {{
         flex: 1; background-color: #0000FF; display: flex; flex-direction: column;
         justify-content: center; align-items: center; color: white;
-        font-size: 80vh; font-weight: bold; position: relative; line-height: 1;
+        font-size: 80vh; font-weight: bold; position: relative; line-height: 1; /* 자식 absolute 요소의 기준점 */
     }}
     
     .set-score-left, .set-score-right {{
@@ -93,8 +93,7 @@ st.markdown(f"""
     .set-score-left {{ right: 20px; }}
     .set-score-right {{ left: 20px; }}
     
-    /* --- 버튼 스타일링 CSS 수정 --- */
-    /* 모든 버튼의 공통 스타일 */
+    /* --- 버튼 스타일링 CSS (개별 버튼 모양) --- */
     div[data-testid="stButton"] > button {{ 
         color: transparent !important; 
         border: none !important;
@@ -112,8 +111,6 @@ st.markdown(f"""
     div[data-testid="stButton"] > button:active {{
         transform: scale(0.95) !important; 
     }}
-
-    /* 플러스(+) 버튼: 초록색 배경, 흰색 아이콘 */
     .plus-button div[data-testid="stButton"] > button {{ 
         background-color: #4CAF50 !important; 
         background-image: url("{encoded_svg_plus}") !important;
@@ -121,8 +118,6 @@ st.markdown(f"""
     .plus-button div[data-testid="stButton"] > button:hover {{
         background-color: #45a049 !important;
     }}
-    
-    /* 마이너스(-) 버튼: 빨간색 배경, 흰색 아이콘 */
     .minus-button div[data-testid="stButton"] > button {{ 
         background-color: #D32F2F !important; 
         background-image: url("{encoded_svg_minus}") !important;
@@ -130,35 +125,44 @@ st.markdown(f"""
     .minus-button div[data-testid="stButton"] > button:hover {{
         background-color: #C62828 !important;
     }}
-
-    .fixed-button-container {{
-        position: fixed; bottom: 40px; left: 0;
-        width: 100%; z-index: 100;
-    }}
-    
-    /* 버튼 그룹 (col1, col2의 직접적인 자식 div) 중앙 정렬 */
-    .fixed-button-container > div[data-testid="stHorizontalBlock"] > div {{
-        display: flex !important;
-        justify-content: center !important; /* 이 div 내부의 컨텐츠(버튼 쌍을 담는 컬럼)를 중앙 정렬 */
-        align-items: center !important;
-    }}
-
-    /* 각 팀의 버튼 쌍 (+, -)을 담는 내부 컬럼 컨테이너 스타일 */
-    /* 예: r_b1, r_b2를 담는 st.columns([1,1])가 생성하는 div */
-     .fixed-button-container > div[data-testid="stHorizontalBlock"] > div > div[data-testid="stHorizontalBlock"] {{
-        display: flex !important;
-        justify-content: center !important; /* 버튼 쌍(+,-)을 그들의 컨테이너 내에서 중앙 정렬 */
-        align-items: center !important;
-        gap: 10px; /* 버튼 사이의 간격 */
-    }}
-
-    /* .plus-button 및 .minus-button div 자체에 대한 스타일 (필요시) */
-    /* 이 div들은 Streamlit 버튼 위젯을 직접 감싸고 있음 */
-    .plus-button, .minus-button {{
+    .plus-button, .minus-button {{ /* 이 div들은 Streamlit 버튼 위젯을 직접 감싸고 있음 */
         display: flex !important;
         justify-content: center !important;
         align-items: center !important;
     }}
+
+    /* --- ✨ 새로운 버튼 컨테이너 및 위치 지정 CSS --- */
+    .red-team-buttons-css-wrapper {{
+        position: absolute; /* .left 또는 .container 기준 (여기서는 .container 기준이 될 가능성이 높음) */
+        bottom: 40px;       /* 화면 하단으로부터의 거리 */
+        left: 0;            /* 화면 왼쪽 가장자리 */
+        width: 50vw;        /* 왼쪽 영역(화면의 절반)을 차지 */
+        display: flex;
+        justify-content: center; /* 내부 버튼 쌍을 이 영역 내에서 중앙 정렬 */
+        z-index: 20; /* 다른 요소들 위에 오도록 */
+    }}
+
+    .blue-team-buttons-css-wrapper {{
+        position: absolute;
+        bottom: 40px;
+        right: 0;           /* 화면 오른쪽 가장자리 */
+        width: 50vw;        /* 오른쪽 영역(화면의 절반)을 차지 */
+        display: flex;
+        justify-content: center;
+        z-index: 20;
+    }}
+
+    /* 각 팀의 버튼 쌍 (+, -)을 담는 내부 컬럼 컨테이너 스타일 */
+    /* st.columns([1,1])에 의해 생성된 div[data-testid="stHorizontalBlock"] 대상 */
+    .red-team-buttons-css-wrapper > div[data-testid="stHorizontalBlock"],
+    .blue-team-buttons-css-wrapper > div[data-testid="stHorizontalBlock"] {{
+        display: flex !important;
+        justify-content: center !important; /* 버튼 쌍(+,-)을 그들의 컨테이너 내에서 중앙 정렬 */
+        align-items: center !important;
+        gap: 20px !important; /* 버튼 사이의 간격을 20px로 늘림 */
+        width: auto !important; /* 컨텐츠(버튼 두 개 + gap)에 맞게 너비 자동 조정 */
+    }}
+    
     </style>
 """, unsafe_allow_html=True)
 
@@ -176,36 +180,38 @@ st.markdown(f"""
     </div>
 """, unsafe_allow_html=True)
 
-# 버튼을 화면 하단에 고정시키기 위한 컨테이너
-st.markdown('<div class="fixed-button-container">', unsafe_allow_html=True)
 
-# 버튼을 좌우로 나누기 위한 컬럼 (col1: 빨강팀 영역, col2: 파랑팀 영역)
-col1, col2 = st.columns(2)
-
-with col1:
-    # 빨강팀 버튼을 위한 내부 컬럼 (+ 와 - 버튼을 나란히 배치)
-    # 각 버튼을 plus-button 또는 minus-button div로 감싸서 CSS 적용
-    # 인라인 스타일 제거
+# --- ✨ 버튼 생성 로직 변경 ---
+# 빨강팀 버튼 영역
+# st.container()는 DOM에서 다음 사용 가능한 위치에 렌더링됩니다.
+# CSS의 absolute positioning이 이 컨테이너들을 시각적으로 재배치합니다.
+red_buttons_container = st.container()
+with red_buttons_container:
+    # 이 div가 CSS에 의해 절대 위치로 지정됩니다.
+    st.markdown('<div class="red-team-buttons-css-wrapper">', unsafe_allow_html=True)
+    # 내부 컬럼으로 버튼 쌍 배치
     r_b1, r_b2 = st.columns([1,1]) 
     with r_b1:
         st.markdown('<div class="plus-button">', unsafe_allow_html=True)
-        st.button(" ", on_click=increment_red, key="red_plus_final") 
+        st.button(" ", on_click=increment_red, key="red_plus_abs") 
         st.markdown('</div>', unsafe_allow_html=True)
     with r_b2:
         st.markdown('<div class="minus-button">', unsafe_allow_html=True)
-        st.button(" ", on_click=decrement_red, key="red_minus_final")
+        st.button(" ", on_click=decrement_red, key="red_minus_abs")
         st.markdown('</div>', unsafe_allow_html=True)
+    st.markdown('</div>', unsafe_allow_html=True) # red-team-buttons-css-wrapper 닫기
 
-with col2:
-    # 파랑팀 버튼을 위한 내부 컬럼
+# 파랑팀 버튼 영역
+blue_buttons_container = st.container()
+with blue_buttons_container:
+    st.markdown('<div class="blue-team-buttons-css-wrapper">', unsafe_allow_html=True)
     b_b1, b_b2 = st.columns([1,1])
     with b_b1:
         st.markdown('<div class="plus-button">', unsafe_allow_html=True)
-        st.button(" ", on_click=increment_blue, key="blue_plus_final")
+        st.button(" ", on_click=increment_blue, key="blue_plus_abs")
         st.markdown('</div>', unsafe_allow_html=True)
     with b_b2:
         st.markdown('<div class="minus-button">', unsafe_allow_html=True)
-        st.button(" ", on_click=decrement_blue, key="blue_minus_final")
+        st.button(" ", on_click=decrement_blue, key="blue_minus_abs")
         st.markdown('</div>', unsafe_allow_html=True)
-
-st.markdown('</div>', unsafe_allow_html=True)
+    st.markdown('</div>', unsafe_allow_html=True) # blue-team-buttons-css-wrapper 닫기
