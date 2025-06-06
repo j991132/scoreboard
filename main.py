@@ -55,30 +55,32 @@ st.markdown(f"""
     }}
     .left {{
         flex: 1; background-color: #FF0000; display: flex;
-        flex-direction: column; justify-content: flex-start;
-        align-items: flex-start; /* 좌측 정렬 유지 */
+        flex-direction: column; justify-content: space-between; /* 위아래 분산 */
+        align-items: flex-start; /* 좌측 정렬 */
         color: white;
-        font-size: clamp(15vh, 80vw, 60vh); /* 크기 조정 */
+        font-size: clamp(20vh, 80vw, 80vh); /* 글자 크기 증가 */
         font-weight: bold; position: relative;
-        line-height: 1; padding: 2vh 0 0 0; /* 좌측 여백 제거 */
-        text-align: left; /* 점수를 좌측 끝으로 정렬 */
+        line-height: 0.8; /* 줄 간격 축소 */
+        padding: 0; /* 패딩 제거 */
+        text-align: left;
         max-height: 80vh;
     }}
     .right {{
         flex: 1; background-color: #0000FF; display: flex;
-        flex-direction: column; justify-content: flex-start;
+        flex-direction: column; justify-content: space-between; /* 위아래 분산 */
         align-items: flex-end; /* 우측 정렬 */
         color: white;
-        font-size: clamp(15vh, 80vw, 60vh); /* 크기 조정 */
+        font-size: clamp(20vh, 80vw, 80vh); /* 글자 크기 증가 */
         font-weight: bold; position: relative;
-        line-height: 1; padding: 2vh 0 0 0; /* 우측 여백 제거 */
-        text-align: right; /* 점수를 우측 끝으로 정렬 */
+        line-height: 0.8; /* 줄 간격 축소 */
+        padding: 0; /* 패딩 제거 */
+        text-align: right;
         max-height: 80vh;
     }}
     /* 세트 스코어 CSS */
     .set-score-left {{
         position: absolute; top: clamp(0.5vh, 1vw, 2vh);
-        right: clamp(1vw, 2vw, 3vh); /* 원래 오른쪽 위치 복원 */
+        right: clamp(1vw, 2vw, 3vh);
         background-color: rgba(255, 255, 255, 0.5);
         padding: clamp(0.2vh, 0.5vw, 1vh) clamp(0.5vw, 1vw, 2vh);
         font-size: clamp(5vh, 30vw, 40vh);
@@ -87,7 +89,7 @@ st.markdown(f"""
     }}
     .set-score-right {{
         position: absolute; top: clamp(0.5vh, 1vw, 2vh);
-        left: clamp(1vw, 2vw, 3vh); /* 원래 왼쪽 위치 복원 */
+        left: clamp(1vw, 2vw, 3vh);
         background-color: rgba(255, 255, 255, 0.5);
         padding: clamp(0.2vh, 0.5vw, 1vh) clamp(0.5vw, 1vw, 2vh);
         font-size: clamp(5vh, 30vw, 40vh);
