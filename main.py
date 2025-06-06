@@ -106,21 +106,25 @@ st.markdown(f"""
         cursor: pointer;
     }}
     .stButton > button:active {{ transform: scale(0.95); }}
+    
     .plus-button .stButton > button {{
         background-color: white;
         font-size: clamp(1.5vw, 18px, 2vh);
     }}
     .plus-button .stButton > button:hover {{ background-color: #f0f0f0; }}
+    
     .minus-button .stButton > button {{
         background-color: white;
         font-size: clamp(1.5vw, 18px, 2vh);
     }}
     .minus-button .stButton > button:hover {{ background-color: #f0f0f0; }}
+    
     .reset-button .stButton > button {{
         background-color: white;
         font-size: clamp(1.5vw, 18px, 2vh);
     }}
     .reset-button .stButton > button:hover {{ background-color: #f0f0f0; }}
+    
     div[data-testid="stHorizontalBlock"] > div:nth-child(1) {{
         display: flex; justify-content: flex-end; padding-right: 5vw;
     }}
@@ -159,9 +163,9 @@ with st.container():
         st.markdown('<div class="button-row">', unsafe_allow_html=True)
         col_plus, col_minus = st.columns(2)
         with col_plus:
-            st.button("+", on_click=increment_red, key="red_plus")
+            st.button("++", on_click=increment_red, key="red_plus")
         with col_minus:
-            st.button("-", on_click=decrement_red, key="red_minus")
+            st.button("--", on_click=decrement_red, key="red_minus")
         st.markdown('</div>', unsafe_allow_html=True)
 
     with col2:
