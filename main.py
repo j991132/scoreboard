@@ -93,17 +93,17 @@ st.markdown(f"""
     }}
     .stButton > button {{
         border: none; border-radius: 50%;
-        width: clamp(4vw, 60px, 6vh);
-        height: clamp(4vw, 60px, 6vh);
-        box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-        background-color: white;
-        font-size: clamp(2.5vw, 30px, 4vh);
-        font-weight: bold;
-        color: black;
-        text-align: center;
-        overflow: visible;
-        transition: transform 0.1s ease-in-out;
-        cursor: pointer;
+    width: clamp(4vw, 60px, 6vh);
+    height: clamp(4vw, 60px, 6vh);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    background-color: white;
+    font-size: clamp(2.5vw, 30px, 4vh); /* 텍스트 크기 증가 */
+    font-weight: bold;
+    color: black;
+    text-align: center;
+    overflow: visible;
+    transition: transform 0.1s ease-in-out;
+    cursor: pointer;
     }}
     .stButton > button:active {{ transform: scale(0.95); }}
     
