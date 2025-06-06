@@ -109,13 +109,13 @@ st.markdown(f"""
     
     .plus-button .stButton > button {{
         background-color: #8fdefd;
-        font-size: clamp(1.5vw, 18px, 2vh);
+        
     }}
     .plus-button .stButton > button:hover {{ background-color: #8fdefd; }}
     
     .minus-button .stButton > button {{
         background-color: #fdb5b4;
-        font-size: clamp(1.5vw, 18px, 2vh);
+        
     }}
     .minus-button .stButton > button:hover {{ background-color: #fdb5b4; }}
     
