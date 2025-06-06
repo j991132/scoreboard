@@ -37,13 +37,12 @@ st.markdown("""
         color: white;
         font-size: 150px;
         font-weight: bold;
-        position의도적으로 제거됨
+        position: relative;
     }
     .set-score-left {
         position: absolute;
         top: 20px;
-        left: 25%;
-        transform: translateX(-50%);
+        right: 20px;
         background-color: rgba(255, 255, 255, 0.5);
         padding: 10px 20px;
         font-size: 40px;
@@ -53,9 +52,8 @@ st.markdown("""
     .set-score-right {
         position: absolute;
         top: 20px;
-        left: 75%;
-        transform: translateX(-50%);
-        background-color: rgba(255, 255, 255, 0.5);
+        left: 20px;
+        background-color: rgba(255, 255, 25, 0.5);
         padding: 10px 20px;
         font-size: 40px;
         font-weight: bold;
