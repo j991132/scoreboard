@@ -56,32 +56,42 @@ st.markdown(f"""
     .left {{
         flex: 1; background-color: #FF0000; display: flex;
         flex-direction: column; justify-content: flex-start;
-        align-items: center; color: white;
-        font-size: clamp(20vh, 80vw, 80vh);
+        align-items: flex-start; /* 좌측 정렬 */
+        color: white;
+        font-size: clamp(15vh, calc(80vw / (1 + floor(log(st.session_state.red_score + 1, 10)))), 60vh); /* 자릿수에 따라 크기 조절 */
         font-weight: bold; position: relative;
-        line-height: 1; padding-top: 2vh;
+        line-height: 1; padding: 2vh 2vw 0 2vw; /* 여백 추가 */
         max-height: 80vh;
     }}
     .right {{
         flex: 1; background-color: #0000FF; display: flex;
         flex-direction: column; justify-content: flex-start;
-        align-items: center; color: white;
-        font-size: clamp(20vh, 80vw, 80vh);
+        align-items: flex-end; /* 우측 정렬 */
+        color: white;
+        font-size: clamp(15vh, calc(80vw / (1 + floor(log(st.session_state.blue_score + 1, 10)))), 60vh); /* 자릿수에 따라 크기 조절 */
         font-weight: bold; position: relative;
-        line-height: 1; padding-top: 2vh;
+        line-height: 1; padding: 2vh 2vw 0 2vw; /* 여백 추가 */
         max-height: 80vh;
     }}
     /* 세트 스코어 CSS */
-    .set-score-left, .set-score-right {{
+    .set-score-left {{
         position: absolute; top: clamp(0.5vh, 1vw, 2vh);
+        left: clamp(2vw, 3vw, 4vh); /* 좌측으로 이동 */
         background-color: rgba(255, 255, 255, 0.5);
         padding: clamp(0.2vh, 0.5vw, 1vh) clamp(0.5vw, 1vw, 2vh);
         font-size: clamp(5vh, 30vw, 40vh);
         font-weight: bold; color: black;
         line-height: 1;
     }}
-    .set-score-left {{ right: clamp(1vw, 2vw, 3vh); }}
-    .set-score-right {{ left: clamp(1vw, 2vw, 3vh); }}
+    .set-score-right {{
+        position: absolute; top: clamp(0.5vh, 1vw, 2vh);
+        right: clamp(2vw, 3vw, 4vh); /* 우측으로 이동 */
+        background-color: rgba(255, 255, 255, 0.5);
+        padding: clamp(0.2vh, 0.5vw, 1vh) clamp(0.5vw, 1vw, 2vh);
+        font-size: clamp(5vh, 30vw, 40vh);
+        font-weight: bold; color: black;
+        line-height: 1;
+    }}
     /* 버튼 스타일링 CSS */
     .fixed-button-container {{
         position: fixed; bottom: 0; left: 0;
@@ -93,37 +103,37 @@ st.markdown(f"""
     }}
     .stButton > button {{
         border: none; border-radius: 50%;
-    width: clamp(4vw, 60px, 6vh);
-    height: clamp(4vw, 60px, 6vh);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-    background-color: white;
-    font-size: clamp(2.5vw, 30px, 4vh); /* 텍스트 크기 증가 */
-    font-weight: bold;
-    color: black;
-    text-align: center;
-    overflow: visible;
-    transition: transform 0.1s ease-in-out;
-    cursor: pointer;
+        width: clamp(4vw, 60px, 6vh);
+        height: clamp(4vw, 60px, 6vh);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+        background-color: white;
+        font-size: clamp(2.5vw, 30px, 4vh);
+        font-weight: bold;
+        color: black;
+        text-align: center;
+        overflow: visible;
+        transition: transform 0.1s ease-in-out;
+        cursor: pointer;
     }}
     .stButton > button:active {{ transform: scale(0.95); }}
     
     .plus-button .stButton > button {{
-    background-color: #8fdefd;
-    font-size: clamp(2.5vw, 30px, 4vh); /* 텍스트 크기 증가 */
-}}
-.plus-button .stButton > button:hover {{ background-color: #8fdefd; }}
+        background-color: #8fdefd;
+        font-size: clamp(2.5vw, 30px, 4vh);
+    }}
+    .plus-button .stButton > button:hover {{ background-color: #8fdefd; }}
 
-.minus-button .stButton > button {{
-    background-color: #fdb5b4;
-    font-size: clamp(2.5vw, 30px, 4vh); /* 텍스트 크기 증가 */
-}}
-.minus-button .stButton > button:hover {{ background-color: #fdb5b4; }}
+    .minus-button .stButton > button {{
+        background-color: #fdb5b4;
+        font-size: clamp(2.5vw, 30px, 4vh);
+    }}
+    .minus-button .stButton > button:hover {{ background-color: #fdb5b4; }}
 
-.reset-button .stButton > button {{
-    background-color: white;
-    font-size: clamp(2.5vw, 30px, 4vh); /* 텍스트 크기 증가 */
-}}
-.reset-button .stButton > button:hover {{ background-color: #f0f0f0; }}
+    .reset-button .stButton > button {{
+        background-color: white;
+        font-size: clamp(2.5vw, 30px, 4vh);
+    }}
+    .reset-button .stButton > button:hover {{ background-color: #f0f0f0; }}
     
     div[data-testid="stHorizontalBlock"] > div:nth-child(1) {{
         display: flex; justify-content: flex-end; padding-right: 5vw;
