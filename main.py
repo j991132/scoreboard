@@ -93,7 +93,8 @@ st.markdown(f"""
         display: flex; justify-content: center; gap: 2vw;
         margin-top: 2vh;
     }}
-    .custom-button {{
+    .stButton > button {{
+        color: transparent !important;
         border: none; border-radius: 50%;
         width: clamp(5vw, 100px, 10vh);
         height: clamp(5vw, 100px, 10vh);
@@ -102,19 +103,15 @@ st.markdown(f"""
         background-size: 50% 50%; transition: transform 0.1s ease-in-out;
         cursor: pointer;
     }}
-    .custom-button:active {{ transform: scale(0.95); }}
-    .plus-button {{
+    .stButton > button:active {{ transform: scale(0.95); }}
+    .plus-button .stButton > button {{
         background-color: #4CAF50; background-image: url("{encoded_svg_plus}");
     }}
-    .plus-button:hover {{ background-color: #45a049; }}
-    .minus-button {{
+    .plus-button .stButton > button:hover {{ background-color: #45a049; }}
+    .minus-button .stButton > button {{
         background-color: #D32F2F; background-image: url("{encoded_svg_minus}");
     }}
-    .minus-button:hover {{ background-color: #C62828; }}
-    /* Streamlit 버튼 숨기기 */
-    .stButton > button {{
-        display: none;
-    }}
+    .minus-button .stButton > button:hover {{ background-color: #C62828; }}
     </style>
 """, unsafe_allow_html=True)
 
@@ -125,23 +122,25 @@ st.markdown(f"""
             <div class="set-score-left">{st.session_state.red_set_score}</div>
             <div>{st.session_state.red_score}</div>
             <div class="button-container">
-                <button class="custom-button plus-button" onclick="document.getElementById('red_plus').click()"></button>
-                <button class="custom-button minus-button" onclick="document.getElementById('red_minus').click()"></button>
+                <div class="plus-button">
+                    {st.button(" ", on_click=increment_red, key="red_plus")}
+                </div>
+                <div class="minus-button">
+                    {st.button(" ", on_click=decrement_red, key="red_minus")}
+                </div>
             </div>
         </div>
         <div class="right">
             <div class="set-score-right">{st.session_state.blue_set_score}</div>
             <div>{st.session_state.blue_score}</div>
             <div class="button-container">
-                <button class="custom-button plus-button" onclick="document.getElementById('blue_plus').click()"></button>
-                <button class="custom-button minus-button" onclick="document.getElementById('blue_minus').click()"></button>
+                <div class="plus-button">
+                    {st.button(" ", on_click=increment_blue, key="blue_plus")}
+                </div>
+                <div class="minus-button">
+                    {st.button(" ", on_click=decrement_blue, key="blue_minus")}
+                </div>
             </div>
         </div>
     </div>
 """, unsafe_allow_html=True)
-
-# 숨겨진 Streamlit 버튼 (이벤트 처리용)
-st.button(" ", on_click=increment_red, key="red_plus", help="Red Plus")
-st.button(" ", on_click=decrement_red, key="red_minus", help="Red Minus")
-st.button(" ", on_click=increment_blue, key="blue_plus", help="Blue Plus")
-st.button(" ", on_click=decrement_blue, key="blue_minus", help="Blue Minus")
