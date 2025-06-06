@@ -34,15 +34,32 @@ if 'blue_set_score' not in st.session_state:
 # 점수 증가/감소 함수
 def increment_red():
     st.session_state.red_score += 1
+    st.rerun()
 
 def decrement_red():
     st.session_state.red_score = max(0, st.session_state.red_score - 1)
+    st.rerun()
 
 def increment_blue():
     st.session_state.blue_score += 1
+    st.rerun()
 
 def decrement_blue():
     st.session_state.blue_score = max(0, st.session_state.blue_score - 1)
+    st.rerun()
+
+# 쿼리 파라미터를 통한 버튼 이벤트 처리
+query_params = st.query_params
+action = query_params.get("action", [None])[0]
+
+if action == "increment_red":
+    increment_red()
+elif action == "decrement_red":
+    decrement_red()
+elif action == "increment_blue":
+    increment_blue()
+elif action == "decrement_blue":
+    decrement_blue()
 
 # CSS 스타일 정의
 st.markdown(f"""
@@ -109,19 +126,6 @@ st.markdown(f"""
     .minus-button:hover {{ background-color: #C62828; }}
     </style>
 """, unsafe_allow_html=True)
-
-# 쿼리 파라미터를 통한 버튼 이벤트 처리
-query_params = st.experimental_get_query_params()
-action = query_params.get("action", [None])[0]
-
-if action == "increment_red":
-    increment_red()
-elif action == "decrement_red":
-    decrement_red()
-elif action == "increment_blue":
-    increment_blue()
-elif action == "decrement_blue":
-    decrement_blue()
 
 # 배경과 점수를 표시할 HTML 구조 (버튼 포함)
 st.markdown(f"""
