@@ -3,60 +3,35 @@ import streamlit as st
 # --- 페이지 설정 ---
 st.set_page_config(layout="wide")
 
-# --- 점수 초기화 (세션 상태 사용) ---
-if 'red_score' not in st.session_state:
-    st.session_state.red_score = 0
-if 'blue_score' not in st.session_state:
-    st.session_state.blue_score = 0
-
-# --- 버튼 로직 처리 ---
-# URL 쿼리 파라미터를 사용하여 버튼 클릭을 감지하고 처리합니다.
-query_params = st.query_params
-if "action" in query_params:
-    action = st.query_params.pop("action")
-    if action == "red_plus":
-        st.session_state.red_score += 1
-    elif action == "red_minus":
-        st.session_state.red_score = max(0, st.session_state.red_score - 1)
-    elif action == "blue_plus":
-        st.session_state.blue_score += 1
-    elif action == "blue_minus":
-        st.session_state.blue_score = max(0, st.session_state.blue_score - 1)
-    elif action == "reset":
-        st.session_state.red_score = 0
-        st.session_state.blue_score = 0
-    
-    # 처리 후 앱을 다시 실행하여 점수를 즉시 업데이트합니다.
-    st.rerun()
-
-# --- HTML 및 CSS 스타일 ---
-html_code = f"""
+# --- CSS 스타일 정의 ---
+# CSS 코드만 별도의 변수로 분리합니다.
+CSS_CODE = """
 <style>
     /* Streamlit 기본 UI 요소 숨기기 */
-    #root > div:nth-child(1) > div > div > div > div > section > div {{
+    #root > div:nth-child(1) > div > div > div > div > section > div {
         padding-top: 0rem;
         padding-right: 1rem;
         padding-bottom: 0rem;
         padding-left: 1rem;
-    }}
-    header, footer, #MainMenu {{
+    }
+    header, footer, #MainMenu {
         visibility: hidden;
-    }}
+    }
     /* 전체 화면을 채우도록 설정 */
-    html, body, [class*="st-"] {{
+    html, body, [class*="st-"] {
         margin: 0;
         padding: 0;
         height: 100%;
         overflow: hidden; /* 스크롤바 숨기기 */
-    }}
-    .scoreboard-container {{
+    }
+    .scoreboard-container {
         display: flex;
         height: 100vh;
         width: 100vw;
         position: relative; /* 리셋 버튼의 기준점 */
-    }}
+    }
     /* 점수 패널 스타일 */
-    .panel {{
+    .panel {
         width: 50%;
         height: 100%;
         display: flex;
@@ -69,12 +44,12 @@ html_code = f"""
         line-height: 1;
         position: relative; /* +/- 버튼의 기준점 */
         user-select: none; /* 텍스트 선택 방지 */
-    }}
-    .red-panel {{ background-color: #E53935; }}
-    .blue-panel {{ background-color: #1E88E5; }}
+    }
+    .red-panel { background-color: #E53935; }
+    .blue-panel { background-color: #1E88E5; }
 
     /* 상단 작은 점수 (원본 이미지 참고) */
-    .top-score {{
+    .top-score {
         position: absolute;
         top: 2vh;
         left: 50%;
@@ -85,12 +60,12 @@ html_code = f"""
         font-size: 5vw;
         display: flex;
         gap: 15px;
-    }}
-    .top-score-red {{ color: #FFCDD2; }}
-    .top-score-blue {{ color: #BBDEFB; }}
+    }
+    .top-score-red { color: #FFCDD2; }
+    .top-score-blue { color: #BBDEFB; }
 
     /* 버튼 그룹 스타일 */
-    .button-group {{
+    .button-group {
         position: absolute;
         bottom: 5vh;
         left: 50%;
@@ -98,17 +73,17 @@ html_code = f"""
         display: flex;
         gap: 20px;
         z-index: 10;
-    }}
+    }
     /* 리셋 버튼 컨테이너 스타일 */
-    .reset-container {{
+    .reset-container {
         position: absolute;
         bottom: 5vh;
         left: 50%;
         transform: translateX(-50%);
         z-index: 10;
-    }}
+    }
     /* 버튼 공통 스타일 */
-    .btn {{
+    .btn {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -121,15 +96,19 @@ html_code = f"""
         font-size: 40px;
         text-decoration: none;
         transition: background-color 0.2s, transform 0.1s;
-    }}
-    .btn:hover {{
+    }
+    .btn:hover {
         background-color: rgba(0, 0, 0, 0.4);
-    }}
-    .btn:active {{
+    }
+    .btn:active {
         transform: scale(0.95);
-    }}
+    }
 </style>
+"""
 
+# --- HTML 구조 정의 ---
+# 점수 표시 부분을 st.session_state 대신 '0'으로 고정하여 테스트합니다.
+HTML_CODE = """
 <div class="scoreboard-container">
     <div class="top-score">
         <span class="top-score-red">0</span>
@@ -137,7 +116,7 @@ html_code = f"""
     </div>
 
     <div class="red-panel">
-        {st.session_state.red_score}
+        0
         <div class="button-group">
             <a href="?action=red_plus" class="btn" target="_self">+</a>
             <a href="?action=red_minus" class="btn" target="_self">-</a>
@@ -145,7 +124,7 @@ html_code = f"""
     </div>
 
     <div class="blue-panel">
-        {st.session_state.blue_score}
+        0
         <div class="button-group">
             <a href="?action=blue_plus" class="btn" target="_self">+</a>
             <a href="?action=blue_minus" class="btn" target="_self">-</a>
@@ -158,5 +137,13 @@ html_code = f"""
 </div>
 """
 
-# HTML 렌더링
-st.markdown(html_code, unsafe_allow_html=True)
+# --- 점수 로직 (일단은 실행되지 않지만, 나중을 위해 남겨둡니다) ---
+if 'st' in locals() and hasattr(st, 'query_params'):
+    query_params = st.query_params
+    if "action" in query_params:
+        # 이 부분은 다음 단계에서 다시 활성화합니다.
+        pass
+
+# --- 분리된 코드 렌더링 ---
+st.markdown(CSS_CODE, unsafe_allow_html=True)
+st.markdown(HTML_CODE, unsafe_allow_html=True)
