@@ -128,6 +128,10 @@ st.markdown(f"""
     div[data-testid="stHorizontalBlock"] > div:nth-child(3) {{
         display: flex; justify-content: flex-start; padding-left: 5vw;
     }}
+    /* 버튼 가로 정렬 */
+    .button-row {{
+        display: flex; justify-content: center; gap: 1vw;
+    }}
     </style>
 """, unsafe_allow_html=True)
 
@@ -150,12 +154,22 @@ with st.container():
     col1, col2, col3 = st.columns([1, 1, 1])
 
     with col1:
-        st.button("+", on_click=increment_red, key="red_plus")
-        st.button("-", on_click=decrement_red, key="red_minus")
+        st.markdown('<div class="button-row">', unsafe_allow_html=True)
+        col_plus, col_minus = st.columns(2)
+        with col_plus:
+            st.button("+", on_click=increment_red, key="red_plus")
+        with col_minus:
+            st.button("-", on_click=decrement_red, key="red_minus")
+        st.markdown('</div>', unsafe_allow_html=True)
 
     with col2:
         st.button("Reset", on_click=reset_scores, key="reset")
 
     with col3:
-        st.button("+", on_click=increment_blue, key="blue_plus")
-        st.button("-", on_click=decrement_blue, key="blue_minus")
+        st.markdown('<div class="button-row">', unsafe_allow_html=True)
+        col_plus, col_minus = st.columns(2)
+        with col_plus:
+            st.button("+", on_click=increment_blue, key="blue_plus")
+        with col_minus:
+            st.button("-", on_click=decrement_blue, key="blue_minus")
+        st.markdown('</div>', unsafe_allow_html=True)
