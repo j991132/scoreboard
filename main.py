@@ -81,13 +81,15 @@ st.markdown("""
         color: black;
     }
     .button-container {
+        position: absolute;
+        bottom: 20px;
         display: flex;
         justify-content: center;
-        margin-top: 20px;
+        width: 100%;
     }
     .score-button {
         font-size: 40px;
-        padding: 10px 20px;
+        padding: 15px 30px;
         margin: 0 10px;
         background-color: white;
         color: black;
@@ -105,16 +107,16 @@ st.markdown(f"""
             <div class="set-score-left">0</div>
             <div>{st.session_state.red_score}</div>
             <div class="button-container">
-                <button class="score-button" onclick="window.location.reload()">+</button>
-                <button class="score-button" onclick="window.location.reload()">-</button>
+                <button class="score-button">+</button>
+                <button class="score-button">-</button>
             </div>
         </div>
         <div class="right">
             <div class="set-score-right">0</div>
             <div>{st.session_state.blue_score}</div>
             <div class="button-container">
-                <button class="score-button" onclick="window.location.reload()">+</button>
-                <button class="score-button" onclick="window.location.reload()">-</button>
+                <button class="score-button">+</button>
+                <button class="score-button">-</button>
             </div>
         </div>
     </div>
@@ -125,10 +127,14 @@ col1, col2 = st.columns(2)
 with col1:
     if st.button("+", key="red_plus"):
         increment_red()
+        st.experimental_rerun()
     if st.button("-", key="red_minus"):
         decrement_red()
+        st.experimental_rerun()
 with col2:
     if st.button("+", key="blue_plus"):
         increment_blue()
+        st.experimental_rerun()
     if st.button("-", key="blue_minus"):
         decrement_blue()
+        st.experimental_rerun()
