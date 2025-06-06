@@ -89,9 +89,10 @@ st.markdown(f"""
     .set-score-left {{ right: clamp(1vw, 2vw, 3vh); }}
     .set-score-right {{ left: clamp(1vw, 2vw, 3vh); }}
     /* 버튼 스타일링 CSS */
-    .button-container {{
-        display: flex; justify-content: center; gap: 2vw;
-        margin-top: 2vh;
+    .fixed-button-container {{
+        position: fixed; bottom: 2vh; left: 0;
+        width: 100%; z-index: 100; display: flex;
+        justify-content: center; gap: 2vw;
     }}
     .stButton > button {{
         color: transparent !important;
@@ -112,6 +113,12 @@ st.markdown(f"""
         background-color: #D32F2F; background-image: url("{encoded_svg_minus}");
     }}
     .minus-button .stButton > button:hover {{ background-color: #C62828; }}
+    div[data-testid="stHorizontalBlock"] > div:nth-child(1) {{
+        display: flex; justify-content: flex-end; padding-right: 5vw;
+    }}
+    div[data-testid="stHorizontalBlock"] > div:nth-child(2) {{
+        display: flex; justify-content: flex-start; padding-left: 5vw;
+    }}
     </style>
 """, unsafe_allow_html=True)
 
@@ -121,26 +128,40 @@ st.markdown(f"""
         <div class="left">
             <div class="set-score-left">{st.session_state.red_set_score}</div>
             <div>{st.session_state.red_score}</div>
-            <div class="button-container">
-                <div class="plus-button">
-                    {st.button(" ", on_click=increment_red, key="red_plus")}
-                </div>
-                <div class="minus-button">
-                    {st.button(" ", on_click=decrement_red, key="red_minus")}
-                </div>
-            </div>
         </div>
         <div class="right">
             <div class="set-score-right">{st.session_state.blue_set_score}</div>
             <div>{st.session_state.blue_score}</div>
-            <div class="button-container">
-                <div class="plus-button">
-                    {st.button(" ", on_click=increment_blue, key="blue_plus")}
-                </div>
-                <div class="minus-button">
-                    {st.button(" ", on_click=decrement_blue, key="blue_minus")}
-                </div>
-            </div>
         </div>
     </div>
 """, unsafe_allow_html=True)
+
+# 버튼을 화면 하단에 고정시키기 위한 컨테이너
+st.markdown('<div class="fixed-button-container">', unsafe_allow_html=True)
+
+# 버튼을 좌우로 나누기 위한 컬럼
+col1, col2 = st.columns(2)
+
+with col1:
+    b1_col1, b1_col2 = st.columns(2)
+    with b1_col1:
+        st.markdown('<div class="plus-button">', unsafe_allow_html=True)
+        st.button(" ", on_click=increment_red, key="red_plus")
+        st.markdown('</div>', unsafe_allow_html=True)
+    with b1_col2:
+        st.markdown('<div class="minus-button">', unsafe_allow_html=True)
+        st.button(" ", on_click=decrement_red, key="red_minus")
+        st.markdown('</div>', unsafe_allow_html=True)
+
+with col2:
+    b2_col1, b2_col2 = st.columns(2)
+    with b2_col1:
+        st.markdown('<div class="plus-button">', unsafe_allow_html=True)
+        st.button(" ", on_click=increment_blue, key="blue_plus")
+        st.markdown('</div>', unsafe_allow_html=True)
+    with b2_col2:
+        st.markdown('<div class="minus-button">', unsafe_allow_html=True)
+        st.button(" ", on_click=decrement_blue, key="blue_minus")
+        st.markdown('</div>', unsafe_allow_html=True)
+
+st.markdown('</div>', unsafe_allow_html=True)
