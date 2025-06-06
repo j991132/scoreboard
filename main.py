@@ -3,10 +3,18 @@ import streamlit as st
 # 1. 페이지 설정 및 세션 상태 초기화
 st.set_page_config(layout="wide")
 
+# 점수 변수들
 if 'red_score' not in st.session_state:
     st.session_state.red_score = 0
 if 'blue_score' not in st.session_state:
     st.session_state.blue_score = 0
+
+# 세트 스코어 변수들 추가
+if 'red_set_score' not in st.session_state:
+    st.session_state.red_set_score = 0
+if 'blue_set_score' not in st.session_state:
+    st.session_state.blue_set_score = 0
+
 
 # 2. 점수 변경 함수
 def increment_red():
@@ -24,9 +32,12 @@ def decrement_blue():
 def reset_scores():
     st.session_state.red_score = 0
     st.session_state.blue_score = 0
+    # 리셋 시 세트 스코어는 유지하거나, 필요시 0으로 초기화할 수 있습니다.
+    # st.session_state.red_set_score = 0
+    # st.session_state.blue_set_score = 0
+
 
 # 3. CSS 스타일 정의
-# 버튼들을 화면 위에 띄워서 배치하기 위한 스타일 추가
 st.markdown("""
 <style>
     /* Streamlit 기본 UI 숨기기 및 전체화면 설정 */
@@ -36,12 +47,13 @@ st.markdown("""
     header, footer, #MainMenu {
         visibility: hidden;
     }
-    /* 점수판 패널 디자인 (보내주신 코드 기반) */
+    /* 점수판 패널 디자인 */
     .container {
         display: flex;
         height: 100vh;
         width: 100vw;
         font-family: Arial, sans-serif;
+        position: relative; /* 자식 absolute 요소들의 기준점 */
     }
     .left {
         flex: 1;
@@ -66,25 +78,39 @@ st.markdown("""
         line-height: 1;
     }
 
+    /* ★★★ 세트 스코어 스타일 추가 ★★★ */
+    .set-score {
+        position: absolute;
+        top: 3vh;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: rgba(0, 0, 0, 0.2);
+        padding: 10px 30px;
+        border-radius: 15px;
+        font-size: 5vw;
+        font-weight: bold;
+        color: white;
+        display: flex;
+        gap: 30px;
+        z-index: 10;
+    }
+
     /* 버튼들을 담을 컨테이너들을 화면 위에 띄움 */
     .button-wrapper {
-        position: absolute; /* 가장 가까운 positioned ancestor를 기준으로 위치 */
-        bottom: 5vh;      /* 화면 하단에서 5% 위 */
+        position: absolute;
+        bottom: 5vh;
         display: flex;
         gap: 20px;
         z-index: 10;
     }
-    /* 왼쪽 버튼 그룹 위치 (화면 너비의 25% 지점 중앙) */
     .left-buttons {
         left: 25vw;
         transform: translateX(-50%);
     }
-    /* 오른쪽 버튼 그룹 위치 (화면 너비의 75% 지점 중앙) */
     .right-buttons {
         left: 75vw;
         transform: translateX(-50%);
     }
-    /* 리셋 버튼 위치 (화면 너비의 50% 지점 중앙) */
     .reset-button {
         left: 50vw;
         transform: translateX(-50%);
@@ -107,10 +133,14 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# 4. HTML로 배경 점수판 그리기
-# 점수만 표시하고, 버튼은 Streamlit으로 따로 그립니다.
+# 4. HTML로 배경 점수판과 세트 스코어 그리기
 st.markdown(f"""
     <div class="container">
+        <div class="set-score">
+            <span>{st.session_state.red_set_score}</span>
+            <span>{st.session_state.blue_set_score}</span>
+        </div>
+
         <div class="left">
             {st.session_state.red_score}
         </div>
