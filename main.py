@@ -107,23 +107,23 @@ st.markdown(f"""
     }}
     .stButton > button:active {{ transform: scale(0.95); }}
     
-    .plus-button .stButton > button {{
-        background-color: #8fdefd;
-        
-    }}
-    .plus-button .stButton > button:hover {{ background-color: #8fdefd; }}
-    
-    .minus-button .stButton > button {{
-        background-color: #fdb5b4;
-        
-    }}
-    .minus-button .stButton > button:hover {{ background-color: #fdb5b4; }}
-    
-    .reset-button .stButton > button {{
-        background-color: white;
-        font-size: clamp(1.5vw, 18px, 2vh);
-    }}
-    .reset-button .stButton > button:hover {{ background-color: #f0f0f0; }}
+    .plus-button .stButton > button {
+    background-color: #8fdefd;
+    font-size: clamp(2.5vw, 30px, 4vh); /* 텍스트 크기 증가 */
+}
+.plus-button .stButton > button:hover { background-color: #8fdefd; }
+
+.minus-button .stButton > button {
+    background-color: #fdb5b4;
+    font-size: clamp(2.5vw, 30px, 4vh); /* 텍스트 크기 증가 */
+}
+.minus-button .stButton > button:hover { background-color: #fdb5b4; }
+
+.reset-button .stButton > button {
+    background-color: white;
+    font-size: clamp(2.5vw, 30px, 4vh); /* 텍스트 크기 증가 */
+}
+.reset-button .stButton > button:hover { background-color: #f0f0f0; }
     
     div[data-testid="stHorizontalBlock"] > div:nth-child(1) {{
         display: flex; justify-content: flex-end; padding-right: 5vw;
