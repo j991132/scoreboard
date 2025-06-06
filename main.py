@@ -11,7 +11,6 @@ if 'blue_score' not in st.session_state:
 
 # --- 버튼 로직 처리 ---
 # URL 쿼리 파라미터를 사용하여 버튼 클릭을 감지하고 처리합니다.
-# 이 방식은 커스텀 HTML 내의 링크(<a> 태그)와 Streamlit 백엔드를 연결하는 효과적인 방법입니다.
 query_params = st.query_params
 if "action" in query_params:
     action = st.query_params.pop("action")
@@ -27,11 +26,10 @@ if "action" in query_params:
         st.session_state.red_score = 0
         st.session_state.blue_score = 0
     
-    # 처리 후 파라미터를 지우고 앱을 다시 실행하여 점수를 즉시 업데이트합니다.
+    # 처리 후 앱을 다시 실행하여 점수를 즉시 업데이트합니다.
     st.rerun()
 
 # --- HTML 및 CSS 스타일 ---
-# f-string을 사용하여 현재 점수를 HTML에 직접 삽입합니다.
 html_code = f"""
 <style>
     /* Streamlit 기본 UI 요소 숨기기 */
@@ -160,5 +158,6 @@ html_code = f"""
 </div>
 """
 
-# HTML 렌더링
+# HTML 렌더링 (가장 중요한 부분)
+# unsafe_allow_html=True 옵션을 추가해야 HTML이 정상적으로 표시됩니다.
 st.markdown(html_code, unsafe_allow_html=True)
