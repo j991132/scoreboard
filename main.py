@@ -56,11 +56,12 @@ st.markdown(f"""
     .left {{
         flex: 1; background-color: #FF0000; display: flex;
         flex-direction: column; justify-content: flex-start;
-        align-items: flex-start; /* 좌측 정렬 */
+        align-items: flex-start; /* 좌측 정렬 유지 */
         color: white;
-        font-size: clamp(15vh, calc(80vw / (1 + floor(log(st.session_state.red_score + 1, 10)))), 60vh); /* 자릿수에 따라 크기 조절 */
+        font-size: clamp(15vh, 80vw, 60vh); /* 크기 조정 */
         font-weight: bold; position: relative;
-        line-height: 1; padding: 2vh 2vw 0 2vw; /* 여백 추가 */
+        line-height: 1; padding: 2vh 0 0 0; /* 좌측 여백 제거 */
+        text-align: left; /* 점수를 좌측 끝으로 정렬 */
         max-height: 80vh;
     }}
     .right {{
@@ -68,15 +69,16 @@ st.markdown(f"""
         flex-direction: column; justify-content: flex-start;
         align-items: flex-end; /* 우측 정렬 */
         color: white;
-        font-size: clamp(15vh, calc(80vw / (1 + floor(log(st.session_state.blue_score + 1, 10)))), 60vh); /* 자릿수에 따라 크기 조절 */
+        font-size: clamp(15vh, 80vw, 60vh); /* 크기 조정 */
         font-weight: bold; position: relative;
-        line-height: 1; padding: 2vh 2vw 0 2vw; /* 여백 추가 */
+        line-height: 1; padding: 2vh 0 0 0; /* 우측 여백 제거 */
+        text-align: right; /* 점수를 우측 끝으로 정렬 */
         max-height: 80vh;
     }}
     /* 세트 스코어 CSS */
     .set-score-left {{
         position: absolute; top: clamp(0.5vh, 1vw, 2vh);
-        left: clamp(2vw, 3vw, 4vh); /* 좌측으로 이동 */
+        right: clamp(1vw, 2vw, 3vh); /* 원래 오른쪽 위치 복원 */
         background-color: rgba(255, 255, 255, 0.5);
         padding: clamp(0.2vh, 0.5vw, 1vh) clamp(0.5vw, 1vw, 2vh);
         font-size: clamp(5vh, 30vw, 40vh);
@@ -85,7 +87,7 @@ st.markdown(f"""
     }}
     .set-score-right {{
         position: absolute; top: clamp(0.5vh, 1vw, 2vh);
-        right: clamp(2vw, 3vw, 4vh); /* 우측으로 이동 */
+        left: clamp(1vw, 2vw, 3vh); /* 원래 왼쪽 위치 복원 */
         background-color: rgba(255, 255, 255, 0.5);
         padding: clamp(0.2vh, 0.5vw, 1vh) clamp(0.5vw, 1vw, 2vh);
         font-size: clamp(5vh, 30vw, 40vh);
