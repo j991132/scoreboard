@@ -117,7 +117,7 @@ st.markdown(f"""
     background-color: #fdb5b4;
     font-size: clamp(2.5vw, 30px, 4vh); /* 텍스트 크기 증가 */
 }}
-.minus-button .stButton > button:hover {ㅖ background-color: #fdb5b4; }}
+.minus-button .stButton > button:hover {{ background-color: #fdb5b4; }}
 
 .reset-button .stButton > button {{
     background-color: white;
