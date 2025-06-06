@@ -1,22 +1,15 @@
 import streamlit as st
 
-# 1. 페이지 설정 및 세션 상태 초기화
+# Streamlit 페이지 설정 (화면을 꽉 채우기 위해 넓게 설정)
 st.set_page_config(layout="wide")
 
-# 점수 변수들
+# 세션 상태 초기화 (점수 관리)
 if 'red_score' not in st.session_state:
     st.session_state.red_score = 0
 if 'blue_score' not in st.session_state:
     st.session_state.blue_score = 0
 
-# 세트 스코어 변수들 추가
-if 'red_set_score' not in st.session_state:
-    st.session_state.red_set_score = 0
-if 'blue_set_score' not in st.session_state:
-    st.session_state.blue_set_score = 0
-
-
-# 2. 점수 변경 함수
+# 점수 증가/감소 함수
 def increment_red():
     st.session_state.red_score += 1
 
@@ -28,144 +21,142 @@ def increment_blue():
 
 def decrement_blue():
     st.session_state.blue_score = max(0, st.session_state.blue_score - 1)
-    
-def reset_scores():
-    st.session_state.red_score = 0
-    st.session_state.blue_score = 0
-    # 리셋 시 세트 스코어는 유지하거나, 필요시 0으로 초기화할 수 있습니다.
-    # st.session_state.red_set_score = 0
-    # st.session_state.blue_set_score = 0
 
-
-# 3. CSS 스타일 정의
+# CSS 스타일 정의
+# 기존 CSS는 그대로 유지합니다.
 st.markdown("""
-<style>
-    /* Streamlit 기본 UI 숨기기 및 전체화면 설정 */
-    #root > div:nth-child(1) > div > div > div > div > section {
-        padding: 0;
+    <style>
+    /* Streamlit 기본 여백 제거 */
+    .block-container {
+        padding-top: 0rem;
+        padding-bottom: 0rem;
+        padding-left: 0rem;
+        padding-right: 0rem;
     }
-    header, footer, #MainMenu {
-        visibility: hidden;
-    }
-    /* 점수판 패널 디자인 */
     .container {
         display: flex;
         height: 100vh;
         width: 100vw;
+        margin: 0;
+        padding: 0;
         font-family: Arial, sans-serif;
-        position: relative; /* 자식 absolute 요소들의 기준점 */
+        position: relative;
     }
     .left {
         flex: 1;
         background-color: #FF0000;
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
         color: white;
-        font-size: 35vw;
+        font-size: 80vh; /* 버튼 공간 확보를 위해 폰트 크기 약간 줄임 */
         font-weight: bold;
+        position: relative;
         line-height: 1;
     }
     .right {
         flex: 1;
         background-color: #0000FF;
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
         color: white;
-        font-size: 35vw;
+        font-size: 80vh; /* 버튼 공간 확보를 위해 폰트 크기 약간 줄임 */
         font-weight: bold;
+        position: relative;
         line-height: 1;
     }
-
-    /* ★★★ 세트 스코어 스타일 추가 ★★★ */
-    .set-score {
+    .set-score-left {
         position: absolute;
-        top: 3vh;
-        left: 50%;
-        transform: translateX(-50%);
-        background-color: rgba(0, 0, 0, 0.2);
-        padding: 10px 30px;
-        border-radius: 15px;
-        font-size: 5vw;
+        top: 20px;
+        right: 20px;
+        background-color: rgba(255, 255, 255, 0.5);
+        padding: 10px 20px;
+        font-size: 24px; /* 가독성을 위해 폰트 크기 조정 */
         font-weight: bold;
-        color: white;
-        display: flex;
-        gap: 30px;
-        z-index: 10;
+        color: black;
     }
-
-    /* 버튼들을 담을 컨테이너들을 화면 위에 띄움 */
-    .button-wrapper {
+    .set-score-right {
         position: absolute;
-        bottom: 5vh;
-        display: flex;
-        gap: 20px;
-        z-index: 10;
+        top: 20px;
+        left: 20px;
+        background-color: rgba(255, 255, 255, 0.5);
+        padding: 10px 20px;
+        font-size: 24px; /* 가독성을 위해 폰트 크기 조정 */
+        font-weight: bold;
+        color: black;
     }
-    .left-buttons {
-        left: 25vw;
-        transform: translateX(-50%);
-    }
-    .right-buttons {
-        left: 75vw;
-        transform: translateX(-50%);
-    }
-    .reset-button {
-        left: 50vw;
-        transform: translateX(-50%);
+    /* 버튼 스타일 */
+    .stButton > button {
+        font-size: 40px;
+        padding: 15px 30px;
+        margin: 0 10px;
+        background-color: white;
+        color: black;
+        border: 2px solid black; /* 테두리 추가 */
+        border-radius: 10px;
+        cursor: pointer;
+        width: 100px; /* 버튼 너비 고정 */
     }
     
-    /* 버튼 자체의 스타일 */
-    .stButton>button {
-        width: 80px;
-        height: 80px;
-        border-radius: 50%;
-        border: 3px solid white;
-        background-color: rgba(255, 255, 255, 0.3);
-        color: white;
-        font-size: 30px;
-        font-weight: bold;
+    /* 버튼을 담을 컨테이너 스타일 (화면 하단에 고정) */
+    .fixed-button-container {
+        position: fixed; /* view port 기준으로 위치 고정 */
+        bottom: 40px;    /* 하단에서 40px 위 */
+        left: 0;
+        width: 100%;
+        z-index: 100;    /* 다른 요소들 위에 표시 */
     }
-    .stButton>button:hover {
-        background-color: rgba(255, 255, 255, 0.5);
+    /* 버튼 컬럼 내부 정렬 */
+    div[data-testid="stHorizontalBlock"] > div:nth-child(1) {
+        display: flex;
+        justify-content: flex-end; /* 빨강 버튼을 오른쪽으로 */
+        padding-right: 5vw;
     }
-</style>
+    div[data-testid="stHorizontalBlock"] > div:nth-child(2) {
+        display: flex;
+        justify-content: flex-start; /* 파랑 버튼을 왼쪽으로 */
+        padding-left: 5vw;
+    }
+    </style>
 """, unsafe_allow_html=True)
 
-# 4. HTML로 배경 점수판과 세트 스코어 그리기
+# 배경과 점수를 표시할 HTML 구조
 st.markdown(f"""
     <div class="container">
-        <div class="set-score">
-            <span>{st.session_state.red_set_score}</span>
-            <span>{st.session_state.blue_set_score}</span>
-        </div>
-
         <div class="left">
-            {st.session_state.red_score}
+            <div class="set-score-left">0</div>
+            <div>{st.session_state.red_score}</div>
         </div>
         <div class="right">
-            {st.session_state.blue_score}
+            <div class="set-score-right">0</div>
+            <div>{st.session_state.blue_score}</div>
         </div>
     </div>
 """, unsafe_allow_html=True)
 
-# 5. Streamlit 버튼들을 CSS로 제어하기 위해 div로 감싸서 배치
-# 왼쪽 버튼들
-st.markdown('<div class="button-wrapper left-buttons">', unsafe_allow_html=True)
-cols_left = st.columns(2)
-cols_left[0].button("+", on_click=increment_red, key="red_plus", use_container_width=True)
-cols_left[1].button("-", on_click=decrement_red, key="red_minus", use_container_width=True)
+# --- ✨ 변경된 부분 시작 ---
+
+# 버튼을 화면 하단에 고정시키기 위한 컨테이너
+st.markdown('<div class="fixed-button-container">', unsafe_allow_html=True)
+
+# 버튼을 좌우로 나누기 위한 컬럼
+col1, col2 = st.columns(2)
+
+with col1:
+    # 빨강팀 버튼을 한 행에 놓기 위한 내부 컬럼
+    b1, b2 = st.columns(2)
+    b1.button("+", on_click=increment_red, key="red_plus")
+    b2.button("-", on_click=decrement_red, key="red_minus")
+
+with col2:
+    # 파랑팀 버튼을 한 행에 놓기 위한 내부 컬럼
+    b3, b4 = st.columns(2)
+    b3.button("+", on_click=increment_blue, key="blue_plus")
+    b4.button("-", on_click=decrement_blue, key="blue_minus")
+
 st.markdown('</div>', unsafe_allow_html=True)
 
-# 오른쪽 버튼들
-st.markdown('<div class="button-wrapper right-buttons">', unsafe_allow_html=True)
-cols_right = st.columns(2)
-cols_right[0].button("+", on_click=increment_blue, key="blue_plus", use_container_width=True)
-cols_right[1].button("-", on_click=decrement_blue, key="blue_minus", use_container_width=True)
-st.markdown('</div>', unsafe_allow_html=True)
-
-# 리셋 버튼
-st.markdown('<div class="button-wrapper reset-button">', unsafe_allow_html=True)
-st.button("🔄", on_click=reset_scores, key="reset")
-st.markdown('</div>', unsafe_allow_html=True)
+# --- ✨ 변경된 부분 끝 ---
