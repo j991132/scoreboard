@@ -62,7 +62,7 @@ st.markdown(f"""
     html, body {{
         margin: 0 !important;
         padding: 0 !important;
-        overflow: hidden; /* 스크롤바 방지 */
+        overflow: hidden !important; /* 스크롤바 방지 */
     }}
     .container {{
         display: flex; height: 100vh; width: 100vw;
@@ -81,21 +81,21 @@ st.markdown(f"""
     
     .set-score-left, .set-score-right {{
         position: absolute;
-        top: 10px; /* 기존 20px에서 조정하여 잘리지 않도록 */
+        top: 10px; 
         background-color: rgba(255, 255, 255, 0.5);
-        padding: 5px 10px; /* 패딩 약간 줄임 */
+        padding: 5px 10px; 
         font-size: 480px; 
         font-weight: bold;
         color: black;
-        line-height: 0.9; /* 글자 크기에 맞게 line-height 조정 */
-        z-index: 10; /* 다른 요소 위에 표시되도록 z-index 추가 */
+        line-height: 0.9; 
+        z-index: 10; 
     }}
     .set-score-left {{ right: 20px; }}
     .set-score-right {{ left: 20px; }}
     
-    /* --- ✨ 버튼 스타일링 CSS 수정 --- */
+    /* --- 버튼 스타일링 CSS 수정 --- */
     /* 모든 버튼의 공통 스타일 */
-    div[data-testid="stButton"] > button {{ /* UPDATED SELECTOR */
+    div[data-testid="stButton"] > button {{ 
         color: transparent !important; 
         border: none !important;
         border-radius: 50% !important; 
@@ -106,14 +106,15 @@ st.markdown(f"""
         background-position: center !important;
         background-size: 50% 50% !important;
         transition: transform 0.1s ease-in-out !important;
-        padding: 0 !important; /* Streamlit 기본 패딩 제거 */
+        padding: 0 !important; 
+        cursor: pointer !important;
     }}
     div[data-testid="stButton"] > button:active {{
         transform: scale(0.95) !important; 
     }}
 
     /* 플러스(+) 버튼: 초록색 배경, 흰색 아이콘 */
-    .plus-button div[data-testid="stButton"] > button {{ /* UPDATED SELECTOR */
+    .plus-button div[data-testid="stButton"] > button {{ 
         background-color: #4CAF50 !important; 
         background-image: url("{encoded_svg_plus}") !important;
     }}
@@ -122,7 +123,7 @@ st.markdown(f"""
     }}
     
     /* 마이너스(-) 버튼: 빨간색 배경, 흰색 아이콘 */
-    .minus-button div[data-testid="stButton"] > button {{ /* UPDATED SELECTOR */
+    .minus-button div[data-testid="stButton"] > button {{ 
         background-color: #D32F2F !important; 
         background-image: url("{encoded_svg_minus}") !important;
     }}
@@ -135,25 +136,29 @@ st.markdown(f"""
         width: 100%; z-index: 100;
     }}
     
-    /* 버튼 컬럼 내부 정렬 수정 */
+    /* 버튼 그룹 (col1, col2의 직접적인 자식 div) 중앙 정렬 */
     .fixed-button-container > div[data-testid="stHorizontalBlock"] > div {{
-        display: flex;
-        justify-content: center; /* 각 팀 버튼 그룹을 중앙 정렬 */
-    }}
-    .fixed-button-container > div[data-testid="stHorizontalBlock"] > div:nth-child(1) .stButton {{
-         margin-right: 10px; /* 빨강팀 플러스/마이너스 버튼 사이 간격 */
-    }}
-     .fixed-button-container > div[data-testid="stHorizontalBlock"] > div:nth-child(2) .stButton {{
-         margin-left: 10px; /* 파랑팀 플러스/마이너스 버튼 사이 간격 */
+        display: flex !important;
+        justify-content: center !important; /* 이 div 내부의 컨텐츠(버튼 쌍을 담는 컬럼)를 중앙 정렬 */
+        align-items: center !important;
     }}
 
-    /* 내부 컬럼 버튼 정렬 */
-    .fixed-button-container .stButton {{ /* 모든 버튼에 적용될 수 있도록 */
-        display: flex;
-        justify-content: center;
-        align-items: center;
+    /* 각 팀의 버튼 쌍 (+, -)을 담는 내부 컬럼 컨테이너 스타일 */
+    /* 예: r_b1, r_b2를 담는 st.columns([1,1])가 생성하는 div */
+     .fixed-button-container > div[data-testid="stHorizontalBlock"] > div > div[data-testid="stHorizontalBlock"] {{
+        display: flex !important;
+        justify-content: center !important; /* 버튼 쌍(+,-)을 그들의 컨테이너 내에서 중앙 정렬 */
+        align-items: center !important;
+        gap: 10px; /* 버튼 사이의 간격 */
     }}
 
+    /* .plus-button 및 .minus-button div 자체에 대한 스타일 (필요시) */
+    /* 이 div들은 Streamlit 버튼 위젯을 직접 감싸고 있음 */
+    .plus-button, .minus-button {{
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+    }}
     </style>
 """, unsafe_allow_html=True)
 
@@ -174,32 +179,33 @@ st.markdown(f"""
 # 버튼을 화면 하단에 고정시키기 위한 컨테이너
 st.markdown('<div class="fixed-button-container">', unsafe_allow_html=True)
 
-# 버튼을 좌우로 나누기 위한 컬럼
+# 버튼을 좌우로 나누기 위한 컬럼 (col1: 빨강팀 영역, col2: 파랑팀 영역)
 col1, col2 = st.columns(2)
 
 with col1:
-    # 빨강팀 버튼을 한 행에 놓기 위한 내부 컬럼 (Streamlit 컬럼 대신 HTML/CSS로 정렬 고려)
+    # 빨강팀 버튼을 위한 내부 컬럼 (+ 와 - 버튼을 나란히 배치)
     # 각 버튼을 plus-button 또는 minus-button div로 감싸서 CSS 적용
-    r_b1, r_b2 = st.columns([1,1]) # 내부 컬럼 비율 동일하게
+    # 인라인 스타일 제거
+    r_b1, r_b2 = st.columns([1,1]) 
     with r_b1:
-        st.markdown('<div class="plus-button" style="display: flex; justify-content: flex-end; padding-right: 5px;">', unsafe_allow_html=True)
-        st.button(" ", on_click=increment_red, key="red_plus_new") # Key 변경으로 이전 상태와 충돌 방지
+        st.markdown('<div class="plus-button">', unsafe_allow_html=True)
+        st.button(" ", on_click=increment_red, key="red_plus_final") 
         st.markdown('</div>', unsafe_allow_html=True)
     with r_b2:
-        st.markdown('<div class="minus-button" style="display: flex; justify-content: flex-start; padding-left: 5px;">', unsafe_allow_html=True)
-        st.button(" ", on_click=decrement_red, key="red_minus_new")
+        st.markdown('<div class="minus-button">', unsafe_allow_html=True)
+        st.button(" ", on_click=decrement_red, key="red_minus_final")
         st.markdown('</div>', unsafe_allow_html=True)
 
 with col2:
-    # 파랑팀 버튼
+    # 파랑팀 버튼을 위한 내부 컬럼
     b_b1, b_b2 = st.columns([1,1])
     with b_b1:
-        st.markdown('<div class="plus-button" style="display: flex; justify-content: flex-end; padding-right: 5px;">', unsafe_allow_html=True)
-        st.button(" ", on_click=increment_blue, key="blue_plus_new")
+        st.markdown('<div class="plus-button">', unsafe_allow_html=True)
+        st.button(" ", on_click=increment_blue, key="blue_plus_final")
         st.markdown('</div>', unsafe_allow_html=True)
     with b_b2:
-        st.markdown('<div class="minus-button" style="display: flex; justify-content: flex-start; padding-left: 5px;">', unsafe_allow_html=True)
-        st.button(" ", on_click=decrement_blue, key="blue_minus_new")
+        st.markdown('<div class="minus-button">', unsafe_allow_html=True)
+        st.button(" ", on_click=decrement_blue, key="blue_minus_final")
         st.markdown('</div>', unsafe_allow_html=True)
 
 st.markdown('</div>', unsafe_allow_html=True)
