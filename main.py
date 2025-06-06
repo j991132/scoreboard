@@ -12,15 +12,19 @@ if 'blue_score' not in st.session_state:
 # 점수 증가/감소 함수
 def increment_red():
     st.session_state.red_score += 1
+    st.rerun()
 
 def decrement_red():
     st.session_state.red_score = max(0, st.session_state.red_score - 1)
+    st.rerun()
 
 def increment_blue():
     st.session_state.blue_score += 1
+    st.rerun()
 
 def decrement_blue():
     st.session_state.blue_score = max(0, st.session_state.blue_score - 1)
+    st.rerun()
 
 # CSS 스타일 정의
 st.markdown("""
@@ -38,9 +42,9 @@ st.markdown("""
         flex: 1;
         background-color: #FF0000;
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
-        flex-direction: column;
         color: white;
         font-size: 90vh;
         font-weight: bold;
@@ -51,9 +55,9 @@ st.markdown("""
         flex: 1;
         background-color: #0000FF;
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
-        flex-direction: column;
         color: white;
         font-size: 90vh;
         font-weight: bold;
@@ -87,7 +91,7 @@ st.markdown("""
         justify-content: center;
         width: 100%;
     }
-    .score-button {
+    .stButton > button {
         font-size: 40px;
         padding: 15px 30px;
         margin: 0 10px;
@@ -106,18 +110,12 @@ st.markdown(f"""
         <div class="left">
             <div class="set-score-left">0</div>
             <div>{st.session_state.red_score}</div>
-            <div class="button-container">
-                <button class="score-button">+</button>
-                <button class="score-button">-</button>
-            </div>
+            <div class="button-container"></div>
         </div>
         <div class="right">
             <div class="set-score-right">0</div>
             <div>{st.session_state.blue_score}</div>
-            <div class="button-container">
-                <button class="score-button">+</button>
-                <button class="score-button">-</button>
-            </div>
+            <div class="button-container"></div>
         </div>
     </div>
 """, unsafe_allow_html=True)
@@ -127,14 +125,10 @@ col1, col2 = st.columns(2)
 with col1:
     if st.button("+", key="red_plus"):
         increment_red()
-        st.experimental_rerun()
     if st.button("-", key="red_minus"):
         decrement_red()
-        st.experimental_rerun()
 with col2:
     if st.button("+", key="blue_plus"):
         increment_blue()
-        st.experimental_rerun()
     if st.button("-", key="blue_minus"):
         decrement_blue()
-        st.experimental_rerun()
