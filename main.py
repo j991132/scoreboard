@@ -77,19 +77,17 @@ st.markdown(f"""
         font-weight: bold; position: relative;
         line-height: 1; min-height: 0;
     }}
-    
-    /* 세트 스코어 CSS 수정 */
+    /* 세트 스코어 CSS */
     .set-score-left, .set-score-right {{
-        position: absolute; top: clamp(0.5vh, 1vw, 2vh); /* 화면 크기에 따라 동적으로 조정 */
+        position: absolute; top: clamp(0.5vh, 1vw, 2vh);
         background-color: rgba(255, 255, 255, 0.5);
         padding: clamp(0.2vh, 0.5vw, 1vh) clamp(0.5vw, 1vw, 2vh);
-        font-size: clamp(5vh, 30vw, 40vh); /* 더 유연하게 조정 */
+        font-size: clamp(5vh, 30vw, 40vh);
         font-weight: bold; color: black;
         line-height: 1;
     }}
     .set-score-left {{ right: clamp(1vw, 2vw, 3vh); }}
     .set-score-right {{ left: clamp(1vw, 2vw, 3vh); }}
-    
     /* 버튼 스타일링 CSS */
     .stButton > button {{
         color: transparent !important;
@@ -109,18 +107,13 @@ st.markdown(f"""
         background-color: #D32F2F; background-image: url("{encoded_svg_minus}");
     }}
     .minus-button .stButton > button:hover {{ background-color: #C62828; }}
-
-    /* 버튼 컨테이너 스타일 */
-    .fixed-button-container {{
-        position: fixed; bottom: 2vh; left: 0;
-        width: 100%; z-index: 100; display: flex;
-        justify-content: center; gap: 2vw;
+    /* 버튼 컨테이너 스타일 (점수 영역 안으로 이동) */
+    .button-container {{
+        display: flex; justify-content: center; gap: 2vw;
+        margin-top: 2vh;
     }}
-    div[data-testid="stHorizontalBlock"] > div:nth-child(1) {{
-        display: flex; justify-content: flex-end; padding-right: 5vw;
-    }}
-    div[data-testid="stHorizontalBlock"] > div:nth-child(2) {{
-        display: flex; justify-content: flex-start; padding-left: 5vw;
+    div[data-testid="stHorizontalBlock"] > div {{
+        display: flex; justify-content: center; gap: 2vw;
     }}
     </style>
 """, unsafe_allow_html=True)
@@ -131,18 +124,17 @@ st.markdown(f"""
         <div class="left">
             <div class="set-score-left">{st.session_state.red_set_score}</div>
             <div>{st.session_state.red_score}</div>
+            <div class="button-container"></div>
         </div>
         <div class="right">
             <div class="set-score-right">{st.session_state.blue_set_score}</div>
             <div>{st.session_state.blue_score}</div>
+            <div class="button-container"></div>
         </div>
     </div>
 """, unsafe_allow_html=True)
 
-# 버튼을 화면 하단에 고정시키기 위한 컨테이너
-st.markdown('<div class="fixed-button-container">', unsafe_allow_html=True)
-
-# 버튼을 좌우로 나누기 위한 컬럼
+# 버튼을 각 점수 영역 내부에 배치
 col1, col2 = st.columns(2)
 
 with col1:
@@ -166,5 +158,3 @@ with col2:
         st.markdown('<div class="minus-button">', unsafe_allow_html=True)
         st.button(" ", on_click=decrement_blue, key="blue_minus")
         st.markdown('</div>', unsafe_allow_html=True)
-
-st.markdown('</div>', unsafe_allow_html=True)
