@@ -56,7 +56,7 @@ st.markdown(f"""
         flex: 1; background-color: #FF0000; display: flex;
         flex-direction: column; justify-content: center;
         align-items: center; color: white;
-        font-size: clamp(20vh, 80vw, 80vh);
+        font-size: clamp(10vh, 40vw, 50vh); /* 점수 크기 축소 */
         font-weight: bold; position: relative;
         line-height: 1; min-height: 0;
     }}
@@ -64,7 +64,7 @@ st.markdown(f"""
         flex: 1; background-color: #0000FF; display: flex;
         flex-direction: column; justify-content: center;
         align-items: center; color: white;
-        font-size: clamp(20vh, 80vw, 80vh);
+        font-size: clamp(10vh, 40vw, 50vh); /* 점수 크기 축소 */
         font-weight: bold; position: relative;
         line-height: 1; min-height: 0;
     }}
@@ -73,7 +73,7 @@ st.markdown(f"""
         position: absolute; top: clamp(0.5vh, 1vw, 2vh);
         background-color: rgba(255, 255, 255, 0.5);
         padding: clamp(0.2vh, 0.5vw, 1vh) clamp(0.5vw, 1vw, 2vh);
-        font-size: clamp(5vh, 30vw, 40vh);
+        font-size: clamp(3vh, 15vw, 20vh); /* 세트 스코어 크기 축소 */
         font-weight: bold; color: black;
         line-height: 1;
     }}
@@ -87,8 +87,8 @@ st.markdown(f"""
     }}
     .stButton > button {{
         border: none; border-radius: 50%;
-        width: clamp(5vw, 100px, 10vh);
-        height: clamp(5vw, 100px, 10vh);
+        width: clamp(5vw, 80px, 8vh); /* 버튼 크기 축소 */
+        height: clamp(5vw, 80px, 8vh); /* 버튼 크기 축소 */
         box-shadow: 0 4px 12px rgba(0,0,0,0.4);
         background-color: white;
         font-size: clamp(2vw, 24px, 3vh);
