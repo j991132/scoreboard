@@ -158,6 +158,5 @@ html_code = f"""
 </div>
 """
 
-# HTML 렌더링 (가장 중요한 부분)
-# unsafe_allow_html=True 옵션을 추가해야 HTML이 정상적으로 표시됩니다.
+# HTML 렌더링
 st.markdown(html_code, unsafe_allow_html=True)
