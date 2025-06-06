@@ -163,9 +163,9 @@ with st.container():
         st.markdown('<div class="button-row">', unsafe_allow_html=True)
         col_plus, col_minus = st.columns(2)
         with col_plus:
-            st.button("+", on_click=increment_red, key="red_plus")
+            st.button("+1", on_click=increment_red, key="red_plus")
         with col_minus:
-            st.button("-", on_click=decrement_red, key="red_minus")
+            st.button("-1", on_click=decrement_red, key="red_minus")
         st.markdown('</div>', unsafe_allow_html=True)
 
     with col2:
@@ -175,7 +175,7 @@ with st.container():
         st.markdown('<div class="button-row">', unsafe_allow_html=True)
         col_plus, col_minus = st.columns(2)
         with col_plus:
-            st.button("+", on_click=increment_blue, key="blue_plus")
+            st.button("+1", on_click=increment_blue, key="blue_plus")
         with col_minus:
-            st.button("-", on_click=decrement_blue, key="blue_minus")
+            st.button("-1", on_click=decrement_blue, key="blue_minus")
         st.markdown('</div>', unsafe_allow_html=True)
